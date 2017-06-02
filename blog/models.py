@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+import datetime
 
 class Post(models.Model):
     author = models.ForeignKey('auth.User')
@@ -31,3 +32,27 @@ class Dev(models.Model):
     last_log = models.DateTimeField()
     def __str__(self):
         return self.info
+		
+class Actor(models.Model):
+	actor_id = models.IntegerField(primary_key=True)
+	name = models.CharField(max_length=100)
+	#birthday = models.DateTimeField 왜 안되는지 이유좀
+	nation = models.CharField(max_length=50)
+	count = models.IntegerField()
+	score = models.IntegerField()
+	picture_url = models.CharField(max_length=100)
+	def __str__(self):
+		return self.name
+	
+
+class Movie(models.Model):
+	movie_id = models.IntegerField()
+	title_kor = models.CharField(max_length=100)
+	title_en = models.CharField(max_length=100)
+	playdate = models.DateTimeField()
+	playtime = models.CharField(max_length=100)
+	year = models.IntegerField()
+	nation = models.CharField(max_length=50)
+	poster_url = models.CharField(max_length=100)
+	def __str__(self):
+		return self.title_kor

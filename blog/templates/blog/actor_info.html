@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Actor</title>
+</head>
+<body>
+<div class="container">
+	<table class="table table-striped">
+		<thead>
+		<tr>
+			<td><B>이름</B></td>
+			<td><B>국가</B></td>
+		</tr>
+		</thead>
+		<tbody>
+		{% for actor in actors %}
+			{% if actor.name == "콜린 퍼스" %}
+			<img src={{actor.picture_url}}>
+			<p> 시간 좀 되나요 나 좀 도와줘요 </p> 
+			<p> 그 쪽 때문에 오감이 제멋대로예요 </p>
+			<p> 그 쪽이 예고 없이 날리는 미소에 음 </p>
+			<p> {{actor.name}}도 울고 갈 당신의 매너에 오</p>
+			<p> 마마무 - 음오아예 </p>
+			<tr>
+				<td>{{actor.name}}</td>
+				<td>{{actor.nation}}</td>
+			</tr>
+			{% endif %}
+		{% endfor %}
+		</tbody>
+	</table>
+</div>
+</body>
+</html>

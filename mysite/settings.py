@@ -25,7 +25,7 @@ SECRET_KEY = 'y)632_rs_&t&mhe=8=z(_nj2_+=5*%a=(%v_^=hdx11zk7y1+%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['13.124.113.245', '.ec2-13-124-113-245.ap-northeast-2.compute.amazonaws.com', 'ip-172-31-3-107.ap-northeast-2.compute.internal']
+ALLOWED_HOSTS = ['127.0.0.1' ,'13.124.113.245', '.ec2-13-124-113-245.ap-northeast-2.compute.amazonaws.com', 'ip-172-31-3-107.ap-northeast-2.compute.internal']
 
 
 # Application definition

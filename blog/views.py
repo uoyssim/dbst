@@ -5,6 +5,7 @@ from django.utils import timezone
 from .forms import UpdateDev
 from .models import Log
 from .models import Dev
+from .models import Actor
 
 def index(request):
     return render(request, 'blog/index.html', {})
@@ -20,6 +21,10 @@ def log(request):
 def log_setting(request):
     devs = Dev.objects.all();
     return render(request, 'blog/log_setting.html', {'devs': devs})
+
+def actor_info(request):
+	actors = Actor.objects.all()
+	return render(request, 'blog/actor_info.html', {'actors': actors})
 
 def on_off(request, devId):
     print (devId)
