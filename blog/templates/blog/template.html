@@ -1,0 +1,41 @@
+{% load staticfiles %}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
+<link href="{% static 'fonts/fontawesome-webfont.svg' %}" rel="stylesheet" type="text/css" media="all" />
+<link href="{% static 'css/default.css' %}" rel="stylesheet" type="text/css"/>
+<link href="{% static 'css/fonts.css' %}" rel="stylesheet" type="text/css"/> 
+<link href="{% static 'fonts/FontAwesome.eot' %}" rel="stylesheet" type="text/css" media="all" />
+
+<!--[if IE 6]><link href="default_ie6.css" rel="stylesheet" type="text/css" /><![endif]-->
+
+</head>
+<body>
+<div id="page" class="container">
+	<div id="header">
+		<div id="logo">
+			<h1><a href="#">Movie Mate</a></h1>
+			<span>Life is a tragedy when seen in close-up</span><br>
+            <span>but a comedy in long-shot</span>
+		</div>
+		<div id="menu">
+			<ul>
+				<li class="current_page_item"><a href="#" accesskey="1" title="">Movie Mate</a></li>
+				<li><a href="#" accesskey="2" title="">RECOMMEND</a></li>
+				<li><a href="#" accesskey="3" title="">SEARCH</a></li>
+				<li><a href="#" accesskey="4" title="">GROUP</a></li>
+				<li><a href="#" accesskey="5" title="">Q&A</a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="main">
+    {% block content %}
+    {% endblock %}
+	</div>
+</div>
+</body>
+</html>
