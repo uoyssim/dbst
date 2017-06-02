@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"  type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+        <!-- jS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style>
+	h1{
+		text-align:center;
+		font-familty : Monteserrat;
+		text-align : center;
+	}
+	table {
+		text-align : center;
+		width : 100% !important;
+		border : 1px solid black;
+		margin-top: 6px;
+	}
+	th {
+		text-align : center;
+	}
+	td:hover{
+		background-color:#808080;
+	}
+	.log-label{
+		width : 20px;
+		height : 10px !important;
+		font-size : 15px;
+	}
+	.floater-div{
+		display:text;
+		text-align:center;
+	}
+	.btn-lg{
+		width : 50px;
+		height : 18px;
+		font-size : 10px;
+		padding : 1px 1px 1px 1px;
+		background-color: #ff9933;
+		border-color : #ff9933;
+	}
+	.btn-lg:hover{
+		background-color : #ff3300;
+		border-color : #ff3300;
+	}
+	</style>
+</head>
+<body>
+	<h1>등록 정보</h1>
+	<div class ="clearfix">
+		<div align="center">
+			<a class="label label-warning info-label log-label" href={% url "log"%}>log</a>
+				<table class="table table-hover" style="width:300px">
+					<thead>
+						<tr>
+							<th>Device ID</th>
+							<th>Name</th>
+							<th>Addr</th>
+							<th>Last Log</th>
+							<th>Alert Period</th>
+							<th>Setting</th>
+						</tr>
+					</thead>
+				<tbody>
+					{% for dev in devs %}	
+					<tr>
+						<td>{{ dev.id }}</td>
+						<td>{{ dev.info }}</td>
+						<td>{{ dev.addr }}</td>
+						<td>{{ dev.last_log }}</td>
+						<td>{{ dev.setting }}시간</td>
+						<td>
+						{% if dev.setting == 0 %}
+							<a type="button" href="/wireless/toggle/{{dev.id}}">on</a>
+						{% else %}
+							<a type="button" href="/wireless/toggle/{{dev.id}}">off</a>
+						{% endif %}
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="floater-div">
+		<a type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#input" href="setting/">Setting</a>
+	</div>
+	
+	<div class="modal fade" id="input" role="dialog">
+        <div class="modal-dialog">
+        <!-- Modal Content-->
+            <div class="modal-content">
+            </div>
+  <!-- /Modal Content-->
+        </div>
+    </div>
+		
+</body>
+</html>

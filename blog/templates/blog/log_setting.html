@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<body>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h5 style="text-align:center;">Setting Page</h5>
+    </div>
+    <div class="modal-body">
+	<div style="padding:20px">
+	    <form action="/wireless/update/" method="post">
+		<label>Device ID</label><br>
+		{% csrf_token %}
+		<select name="id">
+		{% for dev in devs %}
+			<option>{{dev.id}}</option>
+		{% endfor %}
+		</select><br>
+		<label>Info</label><br>
+		<input type="text" name="info"></input><br>
+		<label>Address</label><br>
+                <input type="text" name="addr"></input><br>
+		<label>Setting</label><br>
+                <input type="text" name="setting"></input><br>
+		<input type="submit" value="change"></input><br>
+	    </form>
+        </div>
+    </div>
+</body>
+<script>
+</script>

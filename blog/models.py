@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils import timezone
 
-
 class Post(models.Model):
     author = models.ForeignKey('auth.User')
     title = models.CharField(max_length=200)
@@ -17,3 +16,18 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+class Log(models.Model):
+    dev = models.CharField(max_length=50)
+    timestamp = models.DateTimeField(default = timezone.now)
+    def __str__(self):
+        return self.dev
+
+class Dev(models.Model):
+    id = models.CharField(max_length=50, primary_key=True)
+    info = models.CharField(max_length=50)
+    addr = models.TextField()
+    setting = models.IntegerField()
+    last_log = models.DateTimeField()
+    def __str__(self):
+        return self.info

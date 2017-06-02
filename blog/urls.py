@@ -2,5 +2,13 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.post_list, name='post_list'),
+    url(r'^wireless/$', views.dev_info, name="dev_info"),
+    url(r'^wireless/log$', views.log, name="log"),
+    url(r'^wireless/toggle/(?P<devId>[0-9.]+)/$', views.on_off),
+    url(r'^wireless/givemelogs$', views.givemelogs),
+    url(r'^wireless/getDevInfo$', views.getDevInfo),
+    url(r'^wireless/update/', views.update),
+    url(r'^wireless/setting/$', views.log_setting),
+    url(r'^wireless/signal/\d$', views.signal),
+    url(r'^$', views.index),
 ]
