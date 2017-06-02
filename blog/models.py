@@ -29,5 +29,6 @@ class Dev(models.Model):
     addr = models.TextField()
     setting = models.IntegerField()
     last_log = models.DateTimeField()
+    mail_sent = models.IntegerField()
     def __str__(self):
         return self.info
