@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils import timezone
-import datetime
 
 class Post(models.Model):
     author = models.ForeignKey('auth.User')
@@ -30,13 +29,14 @@ class Dev(models.Model):
     addr = models.TextField()
     setting = models.IntegerField()
     last_log = models.DateTimeField()
+    mail_sent = models.IntegerField()
     def __str__(self):
         return self.info
-		
+
 class Actor(models.Model):
 	actor_id = models.IntegerField(primary_key=True)
 	name = models.CharField(max_length=100)
-	#birthday = models.DateTimeField 왜 안되는지 이유좀
+	birthday = models.CharField(max_length=10)
 	nation = models.CharField(max_length=50)
 	count = models.IntegerField()
 	score = models.IntegerField()

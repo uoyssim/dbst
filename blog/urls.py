@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^wireless/update/', views.update),
     url(r'^wireless/setting/$', views.log_setting),
     url(r'^wireless/signal/\d$', views.signal),
+    url(r'^wireless/check/$', views.check),
     url(r'^$', views.index),
-	url(r'^actor_info$', views.actor_info),
+    url(r'^actor_info$', views.actor_info),
 ]
