@@ -50,9 +50,15 @@ class Group(models.Model):
     def __str__(self):
         return self.group_name
 
-class Group_auth(models.Model):
-    
+class Posting(models.Model):
+    posting_id = models.IntegerField(primary_key=True)
+    user_id = models.IntegerField()
+    group_id = models.IntegerField()
+    contents = models.TextField()
+    like = models.IntegerField()
 
+    def __str__(self):
+        return self.posting_id
 #WIRELESS
 class Log(models.Model):
     dev = models.CharField(max_length=50)
@@ -69,6 +75,3 @@ class Dev(models.Model):
     mail_sent = models.IntegerField()
     def __str__(self):
         return self.info
-
-
-
