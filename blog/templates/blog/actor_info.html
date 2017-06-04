@@ -1,22 +1,6 @@
 ﻿{% extends 'blog/template.html' %}
 {% load staticfiles %}
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title></title>
-<meta name="keywords" content="" />
-<meta name="description" content="" />
-<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
-<link href="{% static 'fonts/fontawesome-webfont.svg' %}" rel="stylesheet" type="text/css" media="all" />
-<link href="{% static 'css/default.css' %}" rel="stylesheet" type="text/css"/>
-<link href="{% static 'css/fonts.css' %}" rel="stylesheet" type="text/css"/> 
-<link href="{% static 'fonts/FontAwesome.eot' %}" rel="stylesheet" type="text/css" media="all" />
-
-<!--[if IE 6]><link href="default_ie6.css" rel="stylesheet" type="text/css" /><![endif]-->
-
-</head>
-<body>
     {% block content %}
 	<div class="container" align="left">
 		<table class="table table-striped">
@@ -31,27 +15,16 @@
 				</tr>
 			</thead>
 			<tbody>
-				{% for actor in actors %}
-					{% if actor.name == "콜린 퍼스" %}
-						<img src={{actor.picture_url}}>
-						<p> 시간 좀 되나요 나 좀 도와줘요 </p> 
-						<p> 그 쪽 때문에 오감이 제멋대로예요 </p>
-						<p> 그 쪽이 예고 없이 날리는 미소에 음 </p>
-						<p> {{actor.name}}도 울고 갈 당신의 매너에 오</p>
-						<tr>
-							<td>{{actor.actor_id}}</td>
-							<td>{{actor.name}}</td>
-							<td>{{actor.birthday}}</td>
-							<td>{{actor.nation}}</td>
-							<td>{{actor.count}}</td>
-							<td>{{actor.score}}</td>
-							
-						</tr>
-					{% endif %}
-				{% endfor %}
+				<img src={{actor.picture_url}} width = 240 height = 480>
+				<tr>
+					<td>{{actor.actor_id}}</td>
+					<td>{{actor.name}}</td>
+					<td>{{actor.birthday}}</td>
+					<td>{{actor.nation}}</td>
+					<td>{{actor.count}}</td>
+					<td>{{actor.score}}</td>
+				</tr>
 			</tbody>
 		</table>
 	</div>
     {% endblock %}
-</body>
-</html>
