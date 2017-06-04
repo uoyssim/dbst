@@ -18,8 +18,10 @@ urlpatterns = [
     url(r'^group/$', views.group, name="group"),
     url(r'^group/create/$', views.group_create, name="group_create"),
     url(r'^group/create/db/$', views.group_create_db, name="group_create_db"),
-    url(r'^actor_info$', views.actor_info),
+    url(r'^actor_info/(?P<actorID>[0-9.]+)/$', views.actor_info),
     url(r'^login/', login, name="login"),
     url(r'^logout/', logout, {'next_page': 'index', }, name="logout"),
     url(r'^signup/', views.signup, name="signup"),
+	url(r'^movie_info/(?P<movieID>[0-9.]+)/$', views.movie_info),
+	url(r'^search/',views.search),
 ]

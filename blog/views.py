@@ -8,6 +8,7 @@ from .models import Log
 from .models import Dev
 from .models import Group
 from .models import Actor
+from .models import Movie
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
 from .forms import LoginForm, SignUpForm
@@ -43,9 +44,30 @@ def log_setting(request):
     devs = Dev.objects.all();
     return render(request, 'blog/log_setting.html', {'devs': devs})
 
-def actor_info(request):
-	actors = Actor.objects.all()
-	return render(request, 'blog/actor_info.html', {'actors': actors})
+def actor_info(request, actorID):
+	#if request.method == "POST":
+	#	temp = Actor.objects.get(pk=request.POST.get('actorID',None))
+	temp = Actor.objects.get(pk = actorID)
+	
+	return render(request, 'blog/actor_info.html', {'actor': temp})
+
+def movie_info(request, movieID):
+	temp = Movie.objects.get(pk = movieID)
+	
+	return render(request, 'blog/movie_info.html', {'movie': temp})
+	
+def search(request):
+	#메뉴에서 처음 들어갈때
+	if request.POST.get('name',None) is None :
+		return render(request, 'blog/search.html',{})
+	else :
+		actorTemp = Actor.objects.filter(name__contains = request.POST.get('name',None))
+		movieTemp = Movie.objects.filter(title_kor__contains = request.POST.get('name',None))
+		#print(temp)
+		if actorTemp.count() + movieTemp.count() > 0 :
+			return render(request, 'blog/search.html', {'actors': actorTemp, 'movies': movieTemp})
+		else :
+			return render(request, 'blog/search.html',{})
 
 def on_off(request, devId):
     print (devId)
