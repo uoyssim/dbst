@@ -5,7 +5,25 @@
     <h2>GROUP</h2>
 </div>
 {% if user.is_authenticated %}
-<h3>{{user.username}}</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Group Name</th>
+            <th>Group Info</th>
+            <th>-</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for group in group_list %}
+        <tr>
+            <td>{{group.group_name}}</td>
+            <td>{{group.group_info}}</td>
+            <td><a href="{% url 'group_in' group.group_id %}" class="btn btn-default">방문하기</a></td>
+        </tr>
+        {% endfor %}
+    <tbody>
+</table>
+
 <a href={% url "group_create" %} type="button" class="btn btn-success">Create Group</a>
 
 {% else %}
