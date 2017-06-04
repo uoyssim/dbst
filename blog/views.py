@@ -9,6 +9,7 @@ from .models import Dev
 from .models import Group
 from .models import Actor
 from .models import Movie
+from .models import Director
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
 from .forms import LoginForm, SignUpForm
@@ -18,12 +19,8 @@ import os
 from sendgrid.helpers.mail import *
 
 def group(request):
-    group_list = Group.objects.all()
-    return render(request, 'blog/group.html', {'group_list': group_list})
-
-def group_in(request, groupID):
- 
-    return render(request, 'blog/group_in.html', {})
+    
+    return render(request, 'blog/group.html', {})
 
 def group_create(request):
     return render(request, 'blog/group_create.html', {})
@@ -60,6 +57,11 @@ def movie_info(request, movieID):
 	
 	return render(request, 'blog/movie_info.html', {'movie': temp})
 	
+def director_info(request, directorID):
+	temp = Director.objects.get(pk = directorID)
+	
+	return render(request, 'blog/director_info.html', {'director': temp})
+	
 def search(request):
 	#메뉴에서 처음 들어갈때
 	if request.POST.get('name',None) is None :
@@ -67,9 +69,10 @@ def search(request):
 	else :
 		actorTemp = Actor.objects.filter(name__contains = request.POST.get('name',None))
 		movieTemp = Movie.objects.filter(title_kor__contains = request.POST.get('name',None))
+		directorTemp = Director.objects.filter(name__contains = request.POST.get('name',None))
 		#print(temp)
-		if actorTemp.count() + movieTemp.count() > 0 :
-			return render(request, 'blog/search.html', {'actors': actorTemp, 'movies': movieTemp})
+		if actorTemp.count() + movieTemp.count() + directorTemp.count() > 0 :
+			return render(request, 'blog/search.html', {'actors': actorTemp, 'movies': movieTemp, 'directors':directorTemp})
 		else :
 			return render(request, 'blog/search.html',{})
 

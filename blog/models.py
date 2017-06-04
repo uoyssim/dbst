@@ -49,9 +49,18 @@ class Group(models.Model):
 
     def __str__(self):
         return self.group_name
+		
+class Director(models.Model):
+	director_id = models.IntegerField(primary_key=True)
+	name = models.CharField(max_length=100)
+	birthday = models.CharField(max_length=10)
+	nation = models.CharField(max_length=50)
+	count = models.IntegerField()
+	picture_url = models.CharField(max_length=100)
+	def __str__(self):
+		return self.name
 
-class Group_auth(models.Model):
-    
+
 
 #WIRELESS
 class Log(models.Model):
