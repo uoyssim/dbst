@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from . import views
+from django.contrib.auth.views import logout, login
 
 urlpatterns = [
     #Wireless
@@ -18,4 +19,7 @@ urlpatterns = [
     url(r'^group/create/$', views.group_create, name="group_create"),
     url(r'^group/create/db/$', views.group_create_db, name="group_create_db"),
     url(r'^actor_info$', views.actor_info),
+    url(r'^login/', login, name="login"),
+    url(r'^logout/', logout, {'next_page': 'index', }, name="logout"),
+    url(r'^signup/', views.signup, name="signup"),
 ]
