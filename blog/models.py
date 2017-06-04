@@ -51,9 +51,9 @@ class Group(models.Model):
         return self.group_name
 
 class Group_auth(models.Model):
-    
+    pass
 
-#WIRELESS
+# WIRELESS
 class Log(models.Model):
     dev = models.CharField(max_length=50)
     timestamp = models.DateTimeField(default = timezone.now)

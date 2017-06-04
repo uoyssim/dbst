@@ -13,9 +13,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
 from .forms import LoginForm, SignUpForm
 from datetime import datetime, timedelta
-import sendgrid
+# import sendgrid
 import os
-from sendgrid.helpers.mail import *
+# from sendgrid.helpers.mail import *
 
 def group(request):
     group_list = Group.objects.all()
