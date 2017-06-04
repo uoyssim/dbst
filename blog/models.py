@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-
+#Database
 class Post(models.Model):
     author = models.ForeignKey('auth.User')
     title = models.CharField(max_length=200)
@@ -17,6 +17,21 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+class Movie(models.Model):
+    movie_id = models.IntegerField(primary_key=True)
+    title_kor = models.CharField(max_length=100)
+    title_en = models.CharField(max_length=100)
+    playdate = models.DateField()
+    playtime = models.CharField(max_length=4)
+    year = models.CharField(max_length=4)
+    nation = models.CharField(max_length=50)
+    poster_url = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.title_kor
+
+
+#WIRELESS
 class Log(models.Model):
     dev = models.CharField(max_length=50)
     timestamp = models.DateTimeField(default = timezone.now)
@@ -33,6 +48,7 @@ class Dev(models.Model):
     def __str__(self):
         return self.info
 
+
 class Actor(models.Model):
 	actor_id = models.IntegerField(primary_key=True)
 	name = models.CharField(max_length=100)
@@ -43,16 +59,4 @@ class Actor(models.Model):
 	picture_url = models.CharField(max_length=100)
 	def __str__(self):
 		return self.name
-	
 
-class Movie(models.Model):
-	movie_id = models.IntegerField()
-	title_kor = models.CharField(max_length=100)
-	title_en = models.CharField(max_length=100)
-	playdate = models.DateTimeField()
-	playtime = models.CharField(max_length=100)
-	year = models.IntegerField()
-	nation = models.CharField(max_length=50)
-	poster_url = models.CharField(max_length=100)
-	def __str__(self):
-		return self.title_kor

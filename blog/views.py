@@ -6,12 +6,16 @@ import pytz
 from .forms import UpdateDev
 from .models import Log
 from .models import Dev
+
 from .models import Actor
+
 from datetime import datetime, timedelta
 import sendgrid
 import os
 from sendgrid.helpers.mail import *
 
+def group(request):
+    return render(request, 'blog/group.html', {})
 def index(request):
     return render(request, 'blog/index.html', {})
 
