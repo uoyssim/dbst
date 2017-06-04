@@ -6,6 +6,9 @@ import pytz
 from .forms import UpdateDev
 from .models import Log
 from .models import Dev
+
+from .models import Actor
+
 from datetime import datetime, timedelta
 import sendgrid
 import os
@@ -27,6 +30,10 @@ def log(request):
 def log_setting(request):
     devs = Dev.objects.all();
     return render(request, 'blog/log_setting.html', {'devs': devs})
+
+def actor_info(request):
+	actors = Actor.objects.all()
+	return render(request, 'blog/actor_info.html', {'actors': actors})
 
 def on_off(request, devId):
     print (devId)

@@ -13,4 +13,5 @@ urlpatterns = [
     url(r'^wireless/check/$', views.check),
     url(r'^$', views.index, name="index"),
     url(r'^group/$', views.group, name="group"),
+    url(r'^actor_info$', views.actor_info),
 ]

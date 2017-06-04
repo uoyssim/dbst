@@ -48,3 +48,15 @@ class Dev(models.Model):
     def __str__(self):
         return self.info
 
+
+class Actor(models.Model):
+	actor_id = models.IntegerField(primary_key=True)
+	name = models.CharField(max_length=100)
+	birthday = models.CharField(max_length=10)
+	nation = models.CharField(max_length=50)
+	count = models.IntegerField()
+	score = models.IntegerField()
+	picture_url = models.CharField(max_length=100)
+	def __str__(self):
+		return self.name
+
