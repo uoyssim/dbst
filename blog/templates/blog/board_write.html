@@ -1,0 +1,25 @@
+{% extends 'blog/template.html' %}
+{% load staticfiles %}
+{% block content %}
+<h2>Q & A</h2>
+<form action="db/" method="post">
+{% csrf_token %}
+    <div class="form-qna">
+        <label for="title">Title: </label>
+        <input type="text" class="form-control" id="title" placeholder="Enter a title" name="title"/>
+    </div>
+    <div class="form-qna">
+        <label for="category">Category:  </label>
+        <select name="category" class="form-control" id="category" name="category">
+                        <option value="Question">Question</option>
+                        <option value="Suggestion">Suggestion</option>
+                        <option value="Complaint">Complaint</option>
+        </select>
+    </div>
+    <div class="form-qna">
+        <label for="context">Context: </label>
+        <input type="text" class="form-control" id="context" placeholder="" name="context" cols="80"/>
+    </div>
+    <input type="submit" class="btn btn-default" value="Submit"/>
+</form>
+{% endblock %}

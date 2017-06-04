@@ -22,4 +22,7 @@ urlpatterns = [
     url(r'^login/', login, name="login"),
     url(r'^logout/', logout, {'next_page': 'index', }, name="logout"),
     url(r'^signup/', views.signup, name="signup"),
+    url(r'^board_write/$',views.board_write, name="board_write"),
+    url(r'^q&a_list/$', views.qna_list, name="q&a_list"),
+    url(r'^board_write/db/$', views.QA_create_db, name="QA_create_db"),
 ]

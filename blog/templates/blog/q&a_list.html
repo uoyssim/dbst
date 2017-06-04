@@ -1,0 +1,8 @@
+{% extends 'blog/template.html' %}
+{% load staticfiles %}
+{% block content %}
+<div>
+    <h1>Q&A</h1>
+    <a href="{% url 'board_write' %}" type="button" class="btn btn-success">글쓰기</a>
+</div>
+{% endblock %}

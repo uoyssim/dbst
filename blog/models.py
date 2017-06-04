@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
+
 #Database
 class Post(models.Model):
     author = models.ForeignKey('auth.User')
@@ -69,5 +71,15 @@ class Dev(models.Model):
     def __str__(self):
         return self.info
 
+class Qa(models.Model):
+    QA_id=models.IntegerField(primary_key=True)
+    timestamp = models.DateTimeField(default=timezone.now)
+    category = models.CharField(max_length=50)
+    user_id=models.CharField(max_length=150)
+    QA_title=models.CharField(max_length=50)
+    QA_contents=models.TextField()
+    state=models.CharField(max_length=1)
 
+    def __str__(self):
+        return self.user_id
 

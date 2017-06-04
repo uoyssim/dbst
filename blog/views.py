@@ -8,11 +8,12 @@ from .models import Log
 from .models import Dev
 from .models import Group
 from .models import Actor
+from .models import Qa
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
 from .forms import LoginForm, SignUpForm
 from datetime import datetime, timedelta
-import sendgrid
+#import sendgrid
 import os
 #from sendgrid.helpers.mail import *
 
@@ -154,3 +155,33 @@ def login(request):
     else:
         form = LoginForm()
         return render(request, 'registration/login.html', {'form': form})
+
+def qna_list(request):
+    return render(request, 'blog/q&a_list.html', {})
+
+def board_write(request):
+    return render(request, 'blog/board_write.html', {})
+
+#def qna_list(request):
+    #    template=get_template('q&a_list.html')
+    #context=Context({})
+
+#return HttpResponse(template.render(context))
+
+#def write_QA(request):
+ #   if request.POST.get('title',None) is None:
+  #      return
+   # else:
+    #  category=request.POST.get('category',None)
+     # title=request.POST.get('title',None)
+      #context=request.POST.get('content',None)
+    # return
+    #end
+def QA_create_db(request):
+    if request.method == "POST":
+        #usr = User.objects.get(username = request.user.get_username())
+        Qa.objects.create(category=request.POST.get('category', None), user_id=request.user.username,
+                          QA_title=request.POST.get('title', None), QA_contents=request.POST.get('context', None),
+                          state='A');
+        #Qa.objects.create(category=request.POST.get('category', None), user_id=usr, QA_title=request.POST.get('title', None), QA_contents=request.POST.get('context', None), state='A');
+    return redirect('/q&a_list/')
