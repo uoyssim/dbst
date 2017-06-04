@@ -1,8 +1,17 @@
 {% extends 'blog/template.html' %}
 {% load staticfiles %}
 {% block content %}
-<div>
-    <h1>GROUP</h1>
-    <a href={% url "group_create" %} type="button" class="btn btn-success">Create Group</a>
+<div class="title">
+    <h2>GROUP</h2>
 </div>
+{% if user.is_authenticated %}
+<h3>{{user.username}}</h3>
+<a href={% url "group_create" %} type="button" class="btn btn-success">Create Group</a>
+
+{% else %}
+<div>
+    <h3>로그인이 필요합니다.</h3><br>
+    <a href={% url 'login' %} class="btn btn-default">LOGIN</a> 
+</div>
+{% endif %}
 {% endblock %}

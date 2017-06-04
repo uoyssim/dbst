@@ -13,6 +13,18 @@ import sendgrid
 import os
 from sendgrid.helpers.mail import *
 
+def group(request):
+    
+    return render(request, 'blog/group.html', {})
+
+def group_create(request):
+    return render(request, 'blog/group_create.html', {})
+
+def group_create_db(request):
+    if request.method == "POST":
+        Group.objects.create(group_name=request.POST.get('group_name', None), group_info=request.POST.get('group_info',None), like=0);
+    return redirect('/group/')
+
 def index(request):
     return render(request, 'blog/index.html', {})
 
@@ -106,7 +118,6 @@ def update(request):
         temp.save()
 
     return redirect('/wireless/')
-	
 
 def sendMail(subject, content_string):
     print("메일 보냄!")
@@ -129,3 +140,34 @@ def check(request):
             dev.save()
 
     return HttpResponse(status=200); 
+
+def signup(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        if User.objects.filter(username__exact=username).count():
+            return HttpResponse('duplicate id', 400)
+        else:
+            user = User.objects.create_user(username, password=password)
+            user.first_name = request.POST.get('name', '')
+            user.save()
+            return render(request, "registration/signup_next.html")
+
+    elif request.method =="GET":
+        userform = SignUpForm()
+    return render(request, "registration/signup.html", {"userform": userform})
+
+def login(request):
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username = username, password = password)
+        if user is not None:
+            login(request)
+            return redirect('registration/login.html')
+        else:
+            return HttpResponse('로그인 실패. 다시 시도 해보세요.')
+    else:
+        form = LoginForm()
+        return render(request, 'registration/login.html', {'form': form})
