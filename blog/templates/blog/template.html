@@ -22,6 +22,19 @@
 			<h1><a href="{% url 'index' %}">Movie Mate</a></h1>
 			<span>Life is a tragedy when seen in close-up</span><br>
             <span>but a comedy in long-shot</span>
+           <section>
+             {% if not user.is_authenticated %}
+				<ul class="actions">
+					<li><a href="{% url 'login' %}" class="button">Login</a></li>
+                    <li><a href="{% url 'signup' %}" class="button ">Sign Up</a></li>
+				</ul>
+                {% endif %}
+            {% if user.is_authenticated %}
+                <ul class="actions">
+                  <li><a href="{% url 'logout' %}" class="button">Logout</a></li>
+                </ul>
+             {% endif %}
+           </section>
 		</div>
 		<div id="menu">
 			<ul>
