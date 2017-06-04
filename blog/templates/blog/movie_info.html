@@ -1,0 +1,32 @@
+{% extends 'blog/template.html' %}
+{% load staticfiles %}
+
+    {% block content %}
+	<div class="container" align="left">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<td><B>ID</B></td>
+					<td><B>한글제목</B></td>
+					<td><B>영문제목</B></td>
+					<td><B>개봉일</B></td>
+					<td><B>러닝타임</B></td>
+					<td><B>제작년도</B></td>
+					<td><B>제작국가</B></td>
+				</tr>
+			</thead>
+			<tbody>
+				<img src={{movie.poster_url}} width = 240 height = 480>
+				<tr>
+					<td>{{movie.movie_id}}</td>
+					<td>{{movie.title_kor}}</td>
+					<td>{{movie.title_en}}</td>
+					<td>{{movie.playdate}}</td>
+					<td>{{movie.playtime}}</td>
+					<td>{{movie.year}}</td>
+					<td>{{movie.nation}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+    {% endblock %}

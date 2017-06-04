@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-#Database
+
 class Post(models.Model):
     author = models.ForeignKey('auth.User')
     title = models.CharField(max_length=200)
@@ -17,42 +17,6 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-class Movie(models.Model):
-    movie_id = models.IntegerField(primary_key=True)
-    title_kor = models.CharField(max_length=100)
-    title_en = models.CharField(max_length=100)
-    playdate = models.DateField()
-    playtime = models.CharField(max_length=4)
-    year = models.CharField(max_length=4)
-    nation = models.CharField(max_length=50)
-    poster_url = models.CharField(max_length=200)
-
-    def __str__(self):
-        return self.title_kor
-
-class Actor(models.Model):
-	actor_id = models.IntegerField(primary_key=True)
-	name = models.CharField(max_length=100)
-	birthday = models.CharField(max_length=10)
-	nation = models.CharField(max_length=50)
-	count = models.IntegerField()
-	score = models.IntegerField()
-	picture_url = models.CharField(max_length=100)
-	def __str__(self):
-		return self.name
-
-class Group(models.Model):
-    group_id = models.IntegerField(primary_key=True)
-    group_name = models.CharField(max_length=50)
-    group_info = models.TextField()
-    like = models.IntegerField()
-
-    def __str__(self):
-        return self.group_name
-
-
-
-#WIRELESS
 class Log(models.Model):
     dev = models.CharField(max_length=50)
     timestamp = models.DateTimeField(default = timezone.now)
@@ -69,5 +33,26 @@ class Dev(models.Model):
     def __str__(self):
         return self.info
 
+class Actor(models.Model):
+	actor_id = models.IntegerField(primary_key=True)
+	name = models.CharField(max_length=100)
+	birthday = models.CharField(max_length=20)
+	nation = models.CharField(max_length=50)
+	count = models.IntegerField()
+	score = models.IntegerField()
+	picture_url = models.CharField(max_length=100)
+	def __str__(self):
+		return self.name
+	
 
-
+class Movie(models.Model):
+	movie_id = models.IntegerField(primary_key=True)
+	title_kor = models.CharField(max_length=100)
+	title_en = models.CharField(max_length=100)
+	playdate = models.CharField(max_length=20)
+	playtime = models.CharField(max_length=100)
+	year = models.IntegerField()
+	nation = models.CharField(max_length=50)
+	poster_url = models.CharField(max_length=100)
+	def __str__(self):
+		return self.title_kor
