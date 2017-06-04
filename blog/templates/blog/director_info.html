@@ -1,0 +1,28 @@
+{% extends 'blog/template.html' %}
+{% load staticfiles %}
+
+    {% block content %}
+	<div class="container" align="left">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<td><B>ID</B></td>
+					<td><B>이름</B></td>
+					<td><B>생일</B></td>
+					<td><B>국가</B></td>
+					<td><B>조회수</B></td>
+				</tr>
+			</thead>
+			<tbody>
+				<img src={{director.picture_url}} width = 240 height = 480>
+				<tr>
+					<td>{{director.director_id}}</td>
+					<td>{{director.name}}</td>
+					<td>{{director.birthday}}</td>
+					<td>{{director.nation}}</td>
+					<td>{{director.count}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+    {% endblock %}

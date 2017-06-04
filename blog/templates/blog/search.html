@@ -13,15 +13,17 @@
 		<table>
 			{% for actor in actors %}
 			<tr>
-			<!--td>{{actors.actor_id}}</td-->
 			<td><a href="/actor_info/{{actor.actor_id}}">{{actor.name}}</a></td>
 			</tr>
 			{% endfor %}
 			{% for movie in movies %}
 			<tr>
-			<!--td>{{actors.actor_id}}</td-->
-			<!--td><a href=/actor_info/{{actor.actor_id}}>{{actor.name}}</a></td-->
 			<td><a href="/movie_info/{{movie.movie_id}}">{{movie.title_kor}}</a></td>
+			</tr>
+			{% endfor %}
+			{% for director in directors %}
+			<tr>
+			<td><a href="/director_info/{{director.director_id}}">{{director.name}}</a></td>
 			</tr>
 			{% endfor %}
 		</table>
