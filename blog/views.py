@@ -18,8 +18,12 @@ import os
 from sendgrid.helpers.mail import *
 
 def group(request):
-    
-    return render(request, 'blog/group.html', {})
+    group_list = Group.objects.all()
+    return render(request, 'blog/group.html', {'group_list': group_list})
+
+def group_in(request, groupID):
+ 
+    return render(request, 'blog/group_in.html', {})
 
 def group_create(request):
     return render(request, 'blog/group_create.html', {})

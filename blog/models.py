@@ -50,7 +50,8 @@ class Group(models.Model):
     def __str__(self):
         return self.group_name
 
-
+class Group_auth(models.Model):
+    
 
 #WIRELESS
 class Log(models.Model):
