@@ -6,9 +6,8 @@ import pytz
 from .forms import UpdateDev
 from .models import Log
 from .models import Dev
-
+from .models import Group
 from .models import Actor
-
 from datetime import datetime, timedelta
 import sendgrid
 import os
@@ -16,6 +15,10 @@ from sendgrid.helpers.mail import *
 
 def group(request):
     return render(request, 'blog/group.html', {})
+
+def group_create(request):
+    return render(request, 'blog/group_create.html', {})
+
 def index(request):
     return render(request, 'blog/index.html', {})
 
@@ -86,8 +89,13 @@ def update(request):
         temp.addr = request.POST.get('addr',None)
         temp.setting = request.POST.get('setting',None)
         temp.save()
+    return redirect('/wireless/') 
 
-    return redirect('/wireless/')
+def group_create_db(request):
+    if request.method == "POST":
+        Group.objects.create(group_name=request.POST.get('group_name', None), group_info=request.POST.get('group_info',None), like=0);
+    return redirect('/group/')
+        
 
 def sendMail(subject, content_string):
     print("메일 보냄!")

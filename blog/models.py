@@ -30,6 +30,27 @@ class Movie(models.Model):
     def __str__(self):
         return self.title_kor
 
+class Actor(models.Model):
+	actor_id = models.IntegerField(primary_key=True)
+	name = models.CharField(max_length=100)
+	birthday = models.CharField(max_length=10)
+	nation = models.CharField(max_length=50)
+	count = models.IntegerField()
+	score = models.IntegerField()
+	picture_url = models.CharField(max_length=100)
+	def __str__(self):
+		return self.name
+
+class Group(models.Model):
+    group_id = models.IntegerField(primary_key=True)
+    group_name = models.CharField(max_length=50)
+    group_info = models.TextField()
+    like = models.IntegerField()
+
+    def __str__(self):
+        return self.group_name
+
+
 
 #WIRELESS
 class Log(models.Model):
@@ -49,14 +70,4 @@ class Dev(models.Model):
         return self.info
 
 
-class Actor(models.Model):
-	actor_id = models.IntegerField(primary_key=True)
-	name = models.CharField(max_length=100)
-	birthday = models.CharField(max_length=10)
-	nation = models.CharField(max_length=50)
-	count = models.IntegerField()
-	score = models.IntegerField()
-	picture_url = models.CharField(max_length=100)
-	def __str__(self):
-		return self.name
 
