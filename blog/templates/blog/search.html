@@ -1,0 +1,21 @@
+{% extends 'blog/template.html' %}
+{% load staticfiles %}
+
+    {% block content %}
+		<form action="/search/" method="post">
+		{% csrf_token %}
+			<div class="form-group">
+				<input name = "actorName" id = "searchTextArea" type="text" class="form-control" placeholder="Search">
+			</div>
+			<!-- a href="/actor_info/{{128}}" class="btn">Submit</a-->
+			<input class="btn btn-default" type="submit">
+		</form>
+		<table>
+			{% for actor in actors %}
+			<tr>
+			<!--td>{{actors.actor_id}}</td-->
+			<td><a href=/actor_info/{{actor.actor_id}}>{{actor.name}}</a></td>
+			</tr>
+			{% endfor %}
+		</table>
+    {% endblock %}

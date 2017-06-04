@@ -6,21 +6,11 @@ import pytz
 from .forms import UpdateDev
 from .models import Log
 from .models import Dev
-from .models import Group
 from .models import Actor
-from django.contrib.auth.models import User
-from django.contrib.auth import login, authenticate
-from .forms import LoginForm, SignUpForm
 from datetime import datetime, timedelta
 import sendgrid
 import os
-#from sendgrid.helpers.mail import *
-
-def group(request):
-    return render(request, 'blog/group.html', {})
-
-def group_create(request):
-    return render(request, 'blog/group_create.html', {})
+from sendgrid.helpers.mail import *
 
 def index(request):
     return render(request, 'blog/index.html', {})
@@ -37,10 +27,22 @@ def log_setting(request):
     devs = Dev.objects.all();
     return render(request, 'blog/log_setting.html', {'devs': devs})
 
-def actor_info(request):
-	actors = Actor.objects.all()
-	return render(request, 'blog/actor_info.html', {'actors': actors})
-
+def actor_info(request, actorID):
+	#if request.method == "POST":
+	#	temp = Actor.objects.get(pk=request.POST.get('actorID',None))
+	temp = Actor.objects.get(pk = actorID)
+	
+	return render(request, 'blog/actor_info.html', {'actor': temp})
+	
+def search(request):
+	if request.POST.get('actorName',None) is None:
+		return render(request, 'blog/search.html',{})
+	else :
+		ActName = request.POST.get('actorName', None)
+		#temp = Actor.objects.get(pk=request.POST.get('actorID',None))
+		temp = Actor.objects.filter(name__contains = request.POST.get('actorName',None))
+		print(temp)
+		return render(request, 'blog/search.html', {'actors': temp})
 def on_off(request, devId):
     print (devId)
     temp = Dev.objects.get(pk=devId)
@@ -92,13 +94,9 @@ def update(request):
         temp.addr = request.POST.get('addr',None)
         temp.setting = request.POST.get('setting',None)
         temp.save()
-    return redirect('/wireless/') 
 
-def group_create_db(request):
-    if request.method == "POST":
-        Group.objects.create(group_name=request.POST.get('group_name', None), group_info=request.POST.get('group_info',None), like=0);
-    return redirect('/group/')
-        
+    return redirect('/wireless/')
+	
 
 def sendMail(subject, content_string):
     print("메일 보냄!")
@@ -121,36 +119,3 @@ def check(request):
             dev.save()
 
     return HttpResponse(status=200); 
-
-
-def signup(request):
-    if request.method == "POST":
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        if User.objects.filter(username__exact=username).count():
-            return HttpResponse('duplicate id', 400)
-        else:
-            user = User.objects.create_user(username, password=password)
-            user.first_name = request.POST.get('name', '')
-            user.save()
-            return render(request, "registration/signup_next.html")
-
-    elif request.method =="GET":
-        userform = SignUpForm()
-    return render(request, "registration/signup.html", {"userform": userform})
-
-
-def login(request):
-    if request.method == "POST":
-        form = LoginForm(request.POST)
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username = username, password = password)
-        if user is not None:
-            login(request)
-            return redirect('registration/login.html')
-        else:
-            return HttpResponse('로그인 실패. 다시 시도 해보세요.')
-    else:
-        form = LoginForm()
-        return render(request, 'registration/login.html', {'form': form})
