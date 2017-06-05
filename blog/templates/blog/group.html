@@ -5,6 +5,33 @@
     <h2>GROUP</h2>
 </div>
 {% if user.is_authenticated %}
+{% if my_group_list is not None %}
+<div class="title">
+    <h3>My Group</h3>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Group Name</th>
+            <th>Group Info</th>
+            <th>-</th>
+        <tr>
+    </thead>
+    <tbody>
+        {% for my_group in my_group_list %}
+        <tr>
+            <td>{{my_group.group_name}}</td>
+            <td>{{my_group.group_info}}</td>
+            <td><a href="{% url 'group_in' my_group.group_id %}" class="btn btn-default">들어가기</a><td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br><br>
+{% endif %}
+<div class="title">
+    <h3>Other Group</h3>
+</div>
 <table class="table">
     <thead>
         <tr>

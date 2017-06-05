@@ -46,10 +46,14 @@ class Group(models.Model):
     group_name = models.CharField(max_length=50)
     group_info = models.TextField()
     like = models.IntegerField()
-
     def __str__(self):
         return self.group_name
-		
+
+class Group_auth(models.Model):
+    user_id = models.IntegerField(primary_key=True)
+    group_id = models.IntegerField(primary_key=True)
+    auth = models.CharField(max_length=1)
+	
 class Director(models.Model):
 	director_id = models.IntegerField(primary_key=True)
 	name = models.CharField(max_length=100)

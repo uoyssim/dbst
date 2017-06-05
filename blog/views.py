@@ -4,12 +4,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 import pytz
 from .forms import UpdateDev
-from .models import Log
-from .models import Dev
-from .models import Group
-from .models import Actor
-from .models import Movie
-from .models import Director
+from .models import Log, Dev
+from .models import Group, Group_auth, Actor, Movie, Director
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
 from .forms import LoginForm, SignUpForm
@@ -19,8 +15,22 @@ import os
 from sendgrid.helpers.mail import *
 
 def group(request):
-    
-    return render(request, 'blog/group.html', {})
+    if request.user.is_authenticated():
+        try:
+            my_groups = Group_auth.objects.get(user_id = request.user.id)
+        except:
+            my_groups = None 
+        if my_groups is not None:
+            my_group_id = my_groups.group_id
+            my_group_list = Group.objects.filter(group_id = my_group_id)
+            group_list = Group.objects.exclude(group_id__in = my_group_list)
+            return render(request, 'blog/group.html', {'group_list': group_list, 'my_group_list': my_group_list})
+        else:
+            group_list = Group.objects.all()
+            return render(request, 'blog/group.html', {'group_list': group_list})
+    else:
+        group_list = Group.objects.all()
+        return render(request, 'blog/group.html', {'group_list': group_list})
 
 def group_create(request):
     return render(request, 'blog/group_create.html', {})
@@ -29,6 +39,10 @@ def group_create_db(request):
     if request.method == "POST":
         Group.objects.create(group_name=request.POST.get('group_name', None), group_info=request.POST.get('group_info',None), like=0);
     return redirect('/group/')
+
+def group_in(request, groupID):
+    
+    return render(request, 'blog/group_in.html', {})
 
 def index(request):
     return render(request, 'blog/index.html', {})
@@ -46,31 +60,24 @@ def log_setting(request):
     return render(request, 'blog/log_setting.html', {'devs': devs})
 
 def actor_info(request, actorID):
-	#if request.method == "POST":
-	#	temp = Actor.objects.get(pk=request.POST.get('actorID',None))
 	temp = Actor.objects.get(pk = actorID)
-	
 	return render(request, 'blog/actor_info.html', {'actor': temp})
 
 def movie_info(request, movieID):
 	temp = Movie.objects.get(pk = movieID)
-	
 	return render(request, 'blog/movie_info.html', {'movie': temp})
 	
 def director_info(request, directorID):
 	temp = Director.objects.get(pk = directorID)
-	
 	return render(request, 'blog/director_info.html', {'director': temp})
 	
 def search(request):
-	#메뉴에서 처음 들어갈때
 	if request.POST.get('name',None) is None :
 		return render(request, 'blog/search.html',{})
 	else :
 		actorTemp = Actor.objects.filter(name__contains = request.POST.get('name',None))
 		movieTemp = Movie.objects.filter(title_kor__contains = request.POST.get('name',None))
 		directorTemp = Director.objects.filter(name__contains = request.POST.get('name',None))
-		#print(temp)
 		if actorTemp.count() + movieTemp.count() + directorTemp.count() > 0 :
 			return render(request, 'blog/search.html', {'actors': actorTemp, 'movies': movieTemp, 'directors':directorTemp})
 		else :
