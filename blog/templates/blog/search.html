@@ -11,16 +11,25 @@
 			<input class="btn btn-default" type="submit">
 		</form>
 		<table>
+			{% if actors.count > 0 %}
+				<tr> <td> <h1> Actor </h1> </td> </tr>
+			{% endif %}
 			{% for actor in actors %}
 			<tr>
 			<td><a href="/actor_info/{{actor.actor_id}}">{{actor.name}}</a></td>
 			</tr>
 			{% endfor %}
+			{% if movies.count > 0 %}
+				<tr> <td> <h1> Movie </h1> </td> </tr>
+			{% endif %}
 			{% for movie in movies %}
 			<tr>
 			<td><a href="/movie_info/{{movie.movie_id}}">{{movie.title_kor}}</a></td>
 			</tr>
 			{% endfor %}
+			{% if directors.count > 0 %}
+				<tr> <td> <h1> Director </h1> </td> </tr>
+			{% endif %}
 			{% for director in directors %}
 			<tr>
 			<td><a href="/director_info/{{director.director_id}}">{{director.name}}</a></td>

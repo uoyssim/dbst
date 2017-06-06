@@ -147,16 +147,26 @@ def log_setting(request):
     return render(request, 'blog/log_setting.html', {'devs': devs})
 
 def actor_info(request, actorID):
-	temp = Actor.objects.get(pk = actorID)
-	return render(request, 'blog/actor_info.html', {'actor': temp})
+    temp = Actor.objects.get(pk = actorID)
+    roleTemp = Role.objects.filter(actor = actorID)
+    movieTemp = Movie.objects.filter(movie_id__in=roleTemp.values_list('movie',flat=True))
+    return render(request, 'blog/actor_info.html', {'actor' : temp, 'roles_and_movies':zip(roleTemp,movieTemp)})
 
 def movie_info(request, movieID):
-	temp = Movie.objects.get(pk = movieID)
-	return render(request, 'blog/movie_info.html', {'movie': temp})
+    temp = Movie.objects.get(pk = movieID)
+    genreTemp = Genre.objects.filter(movie_id = movieID)
+    directTemp = Direct.objects.filter(movie_id = movieID)
+    directorTemp = Director.objects.filter(director_id__in=directTemp.values_list('director',flat=True))
+    roleTemp = Role.objects.filter(movie = movieID)
+    actorTemp = Actor.objects.filter(actor_id__in=roleTemp.values_list('actor',flat=True))
+    return render(request, 'blog/movie_info.html', {'movie': temp, 'genres':genreTemp, 'directors':directorTemp, 'roles_and_actors':zip(roleTemp,actorTemp)})
 	
 def director_info(request, directorID):
-	temp = Director.objects.get(pk = directorID)
-	return render(request, 'blog/director_info.html', {'director': temp})
+    temp = Director.objects.get(pk = directorID)
+    directTemp = Direct.objects.filter(director = directorID)
+    movieTemp = Movie.objects.filter(movie_id__in=directTemp.values_list('movie_id',flat=True))
+    #return render(request, 'blog/director_info.html', {'director': temp, 'directs_and_movies':zip(directTemp,movieTemp)})
+    return render(request, 'blog/director_info.html', {'director': temp, 'movies': movieTemp})
 	
 def search(request):
 	if request.POST.get('name',None) is None :

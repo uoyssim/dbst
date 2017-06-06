@@ -1,8 +1,59 @@
-{% extends 'blog/template.html' %}
+﻿{% extends 'blog/template.html' %}
 {% load staticfiles %}
 
     {% block content %}
-	<div class="container" align="left">
+	<div class="bs-docs-section">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="page-header" align="left">
+					<h1> {{director.name}} </h1>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-4">
+				<img src={{director.picture_url}} width = 213 height = 317>
+			</div>
+			<div class="col-lg-8">
+				<table class="table table-striped">
+					<thead></thead>
+					<tbody>
+						<tr> <td> <B> 생일 : </B> {{director.birthday}}</td> </tr>
+						<tr> <td> <B> 국적 : </B> {{director.nation}}</td> </tr>
+					</tbody>
+				</table>
+			</div>	
+		</div>
+	</div>
+	<div class="bs-docs-section">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="page-header" align="left">
+					<h1> 필모그래피 </h1>
+				</div>
+			</div>
+		</div>
+			{% for movie in movies %}
+				<div class="row">
+					<div class="col-lg-4">
+						<a href="/movie_info/{{movie.movie_id}}"><img src={{movie.poster_url}} width = 149 height = 222> </a>
+					</div>
+					<div class="col-lg-8">
+						<table class="table table-striped">
+							<thead></thead>
+							<tbody>
+								<tr> <td> <B> 한제 : </B> {{movie.title_kor}} </td> </tr>
+								<tr> <td> <B> 영제 : </B> {{movie.title_en}} </td> </tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+	
+	<!--디버그 코드-->
+	<!--div class="container" align="left">
 		<table class="table table-striped">
 			<thead>
 				<tr>
@@ -24,5 +75,5 @@
 				</tr>
 			</tbody>
 		</table>
-	</div>
+	</div-->
     {% endblock %}

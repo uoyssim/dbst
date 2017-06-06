@@ -115,7 +115,9 @@ class Dev(models.Model):
     class Meta:
         managed = False
         db_table = 'blog_dev'
+        
 class Direct(models.Model):
+    direct_id = models.AutoField(primary_key=True)
     movie_id = models.IntegerField()
     director = models.ForeignKey('Director', models.DO_NOTHING)
 
@@ -138,6 +140,7 @@ class Director(models.Model):
 
 
 class Genre(models.Model):
+    genre_id = models.AutoField(primary_key=True)
     movie_id = models.IntegerField()
     genre = models.CharField(max_length=20)
 
@@ -246,6 +249,7 @@ class Qa(models.Model):
 
 
 class Role(models.Model):
+    role_id = models.AutoField(db_column='role_id', primary_key=True)
     movie = models.ForeignKey(Movie, models.DO_NOTHING, blank=True, null=True)
     actor = models.ForeignKey(Actor, models.DO_NOTHING, blank=True, null=True)
     role = models.CharField(max_length=50, blank=True, null=True)
