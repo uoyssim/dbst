@@ -1,15 +1,33 @@
 {% extends 'blog/template.html' %}
 {% load staticfiles %}
 {% block content %}
-<table class="table">
-    <thead>
-        <tr>
-            <th>-</th>
-            <th>제목</th>
-            <th>글쓴이</th>
-            <th>조회수</th>
-        </tr>
-    </thead>
-    <tbody>
-</table>
+    <div class="title">
+        <h2>{{ name }}</h2>
+    </div>
+    {% if posting is not None %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>제목</th>
+                <th>글쓴이</th>
+                <th>조회수</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ posting.title }}</td>
+                <td>{{ posting.user.username }}</td>
+                <td>{{ posting.count }}</td>
+            </tr>
+        </tbody>
+    </table>
+    {%  else %}
+    <div class="title">
+        <h3>등록된 게시물이 없습니다.</h3>
+    </div>
+    {%  endif %}
+    <br><br><br>
+    {% if auth is not None %}
+        <a href="/group/write/{{ groupID }}"type="button" class="btn btn-default">글쓰기</a>
+    {% endif %}
 {% endblock %}

@@ -4,15 +4,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 import pytz
 from .forms import UpdateDev
-from .models import Log, Dev
-from .models import Group, Group_auth, Actor, Movie, Director
+from .models import *
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
 from .forms import LoginForm, SignUpForm
 from datetime import datetime, timedelta
-import sendgrid
+#import sendgrid
 import os
-from sendgrid.helpers.mail import *
+#from sendgrid.helpers.mail import *
 
 def group(request):
     if request.user.is_authenticated():
@@ -41,8 +40,44 @@ def group_create_db(request):
     return redirect('/group/')
 
 def group_in(request, groupID):
-    
-    return render(request, 'blog/group_in.html', {})
+    try:
+        auth = Group_auth.objects.filter(group_id = groupID).get(user_id = request.user.id)
+    except:
+        auth = None
+
+    group_name = Group.objects.get(group_id = groupID).group_name
+    try:
+        posting = Posting.objects.get(group_id = groupID)
+    except:
+        posting = None
+    if posting is None:
+        return render(request, 'blog/group_in.html', {'auth':auth, 'groupID':groupID, 'name':group_name})
+    else:
+        return render(request, 'blog/group_in.html', {'auth':auth, 'groupID':groupID, 'name':group_name, 'posting':posting})
+
+def group_post(request):
+    return render(request, 'blog/group_post.html', {})
+
+def group_write(request, groupID):
+    return render(request, 'blog/group_write.html', {'groupID':groupID})
+
+def group_write_db(request):
+
+    if request.method == "POST":
+        groupID = request.POST.get("groupID", None)
+        group_name = Group.objects.get(group_id = groupID).group_name
+        Posting.objects.create(user = AuthUser.objects.get(username = request.user.username), group = Group.objects.get(group_id=groupID), title=request.POST.get("title",None), contents=request.POST.get("contents",None), count = 0, like = 0)
+        try:
+            posting = Posting.objects.get(group_id=groupID)
+        except:
+            posting = None
+        try:
+            auth = Group_auth.objects.filter(group_id=groupID).get(user_id=request.user.id)
+        except:
+            auth = None
+        return render(request, 'blog/group_in.html', {'auth':auth, 'groupID':groupID, 'name':group_name, 'posting':posting})
+    else:
+        return redirect('group')
 
 def index(request):
     return render(request, 'blog/index.html', {})
@@ -158,7 +193,6 @@ def check(request):
 
     return HttpResponse(status=200); 
 
-
 def signup(request):
     if request.method == "POST":
         username = request.POST.get('username')
@@ -174,7 +208,6 @@ def signup(request):
     elif request.method =="GET":
         userform = SignUpForm()
     return render(request, "registration/signup.html", {"userform": userform})
-
 
 def login(request):
     if request.method == "POST":

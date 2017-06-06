@@ -1,5 +1,5 @@
 from django import forms
-from .models import Dev
+from .models import Dev, Posting
 from django.contrib.auth.models import User
 
 class UpdateDev(forms.ModelForm):
