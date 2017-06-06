@@ -1,0 +1,35 @@
+{% extends 'blog/template.html' %}
+{% load staticfiles %}
+{% block content %}
+
+{% if user.is_authenticated %}
+<div>
+    <h1>Q&A</h1>
+    <a href="{% url 'board_write' %}" type="button" class="btn btn-success">글쓰기</a>
+</div>
+
+    <table class="table">
+    <thead>
+            <tr>
+                <th></th>
+                <th>제목</th>
+                <th>날짜</th>
+            </tr>
+    </thead>
+    {% for qa in qa_list %}
+    <tr>
+        <td><a type="text" href={% url 'qa_post' qa.qa_id %}>{{ qa.qa_title }}</a></td>
+        <td>{{ qa.qa_title }}</td>
+        <td>{{ qa.timestamp }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% else %}
+    <h2>Q & A</h2><br>
+    <h3>로그인이 필요합니다.</h3><br><br><br>
+    <a href={% url 'login' %} class="btn btn-default">LOGIN</a>
+{% endif %}
+
+{% endblock %}
+
