@@ -132,9 +132,7 @@ def group_join(request, groupID):
         return render(request, 'blog/group_in.html', {'auth':auth, 'group':group, 'posting':posting})
 
 def recommend(request):
-    user = AuthUser.objects.get(username=request.user.username)
-    recommends = Movie.objects.exclude(poster_url__isnull=True).exclude(poster_url__exact='')[:5]
-    return render(request, 'blog/recommend.html', {'user':user, 'recommends':recommends})
+    return render(request, 'blog/recommend.html', {})
 
 def index(request):
     return render(request, 'blog/index.html', {})
