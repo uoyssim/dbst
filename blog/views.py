@@ -140,8 +140,8 @@ def recommend(request):
         except:
             user_inter = None
         newest = Movie.objects.exclude(movie_id__in=user_inter.values_list('movie', flat=True)).order_by('-playdate')[:5]
-        hot = UserInterest.objects.values('movie').annotate(count = Count('movie')).order_by('-count')[:5]
-        hotest = Movie.objects.filter(movie_id__in=hot.values_list('movie', flat=True))
+        hot = UserInterest.objects.values('movie').annotate(count = Count('movie')).order_by('-count')
+        hotest = Movie.objects.filter(movie_id__in=hot.values_list('movie', flat=True))[:5]
         return render(request, 'blog/recommend.html', {'user':user, 'newest':newest, 'hotest': hotest})
     else:
         recommends = Movie.objects.all().order_by('playdate')[:5]
