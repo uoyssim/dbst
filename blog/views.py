@@ -312,3 +312,23 @@ def moviemate(request):
     director = Director.objects.all()
     director = director[:20]
     return render(request, 'blog/moviemate.html', {'trailer': trailer, 'actor': actor, 'director': director})
+
+def qna_list(request):
+    if request.user.is_authenticated():
+        try:
+            current_user = AuthUser.objects.get(username=request.user.username)
+        except:
+            current_user = None
+
+        try:
+            qa_list = QA.objects.filter(user=current_user)
+        except:
+            qa_list = None
+        return render(request, 'blog/qna_list.html', {'qa_list': qa_list})
+    else:
+        return render(request, 'blog/qna_list.html', {})
+
+
+def qa_post(request, qa_id):
+    post = QA.objects.get(qa_id=qa_id)
+    return render(request, 'blog/qa_post.html', {'post': post})

@@ -33,7 +33,8 @@ urlpatterns = [
 	url(r'^search/',views.search),
 	url(r'^director_info/(?P<directorID>[0-9.]+)/$', views.director_info),
     url(r'^qna_list/$', views.qna_list, name="qna_list"),
-    url(r'^board_write/$',views.board_write, name="board_write"),
+    url(r'^board_write/$', views.board_write, name="board_write"),
     url(r'^board_write/db/$', views.QA_create_db, name="QA_create_db"),
+    url(r'^qa_post/(?P<qa_id>[0-9]+)/$', views.qa_post, name="qa_post"),
     url(r'^moviemate/$', views.moviemate, name="moviemate"),
 ]

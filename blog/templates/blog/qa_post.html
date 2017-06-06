@@ -1,0 +1,20 @@
+{% extends 'blog/template.html' %}
+{% load staticfiles %}
+{% block content %}
+<div class="title">
+    <h2> Q&A </h2>
+</div>
+<table class="table">
+    <tr>
+        <th>제목</th>
+        <td>{{ post.qa_title }}</td>
+    </tr>
+    <tr>
+        <th>내용</th>
+        <td>{{ post.qa_contents }}</td>
+    </tr>
+    <tr>
+        <td colspan="4">{{ post.contents }}</td>
+    </tr>
+</table>
+{% endblock%}
