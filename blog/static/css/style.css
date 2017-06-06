@@ -80,7 +80,7 @@ body h1 {
   transition: all 0.3s ease-in-out;
   color: #929daf;
   padding: 5px auto;
-  overflow: hidden;
+  overflow: auto;
   text-overflow: ellipsis;
   display: block;
   cursor: pointer;

@@ -4,8 +4,8 @@
 {% block content %}
     <h1>Movie Mate</h1>
 
-    <body>
-            <div class="tabs" style='min-width: 720px; height: 1100px;'>
+    <body >
+            <div class="tabs" style='min-width: 720px; min-height: 1500px; overflow: auto' >
 
               <input type="radio" id="tab1" name="tab-control" checked>
               <input type="radio" id="tab2" name="tab-control">
@@ -36,19 +36,34 @@
               <div class="content">
                 <section>
                   <h2>Trailer</h2>
-                    trailer
-                    <button class="btn third">Button 3</button>
+                    {% for trailer in trailer %}
+                       <div class="row" style="border-bottom: double; border-bottom-color: #428BFF; margin: 10px">
+                          <iframe width="560" height="315" src="{{ trailer.url }}" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    {% endfor %}
+
                 </section>
 
-                <section>
+                <section >
                   <h2>Actor</h2>
-
-
+                    {% for actor in actor %}
+                       <div class="row">
+                            <td><a href="/actor_info/{{actor.actor_id}}"><h1> {{actor.name}} </h1></a></td>
+                            <td><a href="/actor_info/{{actor.actor_id}}">  <img src={{actor.picture_url}} width = 213 height = 317></a></td>
+                        </div>
+                    {% endfor %}
 
                </section>
 
                 <section>
                       <h2>Director</h2>
+                    {% for director in director %}
+                       <div class="row">
+                            <td><a href="/director_info/{{director.director_id}}"><h1> {{director.name}} </h1></a></td>
+                            <td><a href="/director_info/{{director.director_id}}">  <img src={{director.picture_url}} width = 213 height = 317></a></td>
+                        </div>
+                    {% endfor %}
+
                  </section>
               </div>
             </div>

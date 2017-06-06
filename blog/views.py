@@ -306,6 +306,9 @@ def login(request):
 
 def moviemate(request):
     trailer = Trailer.objects.all()
+    trailer = trailer[:20]
     actor = Actor.objects.all()
+    actor = actor[:20]
     director = Director.objects.all()
-    return render(request, 'blog/moviemate.html', {'trailer' : trailer},{'actor' : actor},{'director' : director})
+    director = director[:20]
+    return render(request, 'blog/moviemate.html', {'trailer': trailer, 'actor': actor, 'director': director})
