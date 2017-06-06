@@ -1,5 +1,52 @@
 {% extends 'blog/template.html' %}
 {% load staticfiles %}
 {% block content %}
-
+<div class="title">
+    <h2>{{ group.group_name }}</h2>
+</div>
+<table class="table">
+    <tr>
+        <th>제목</th>
+        <td>{{ post.title }}</td>
+        <th>글쓴이</th>
+        <td>{{ post.user.username }}</td>
+    </tr>
+    <tr>
+        <th>조회수</th>
+        <td>{{ post.count }}</td>
+        <th>추천</th>
+        <td>{{ post.like }}</td>
+    </tr>
+    <tr>
+        <td colspan="4">{{ post.contents }}</td>
+    </tr>
+</table>
+{% if auth is not None %}
+<div class="comment_write">
+    <form action="/group/comment/" method="post" align="right">
+        {% csrf_token %}
+        <input type="text" class="form-control" name="comment" placeholder="댓글 남기기"/>
+        <input type="hidden" id="postID" name="postID" value="{{ post.posting_id }}"/>
+        <input type="hidden" id="groupID" name="groupID" value="{{ group.group_id }}"/>
+        <input type="submit" class="btn btn-default" value="댓글 달기"/>
+    </form>
+</div>
+{% if comments is not None %}
+    {% for comment in comments%}
+    <div class="comment">
+        <div>{{ comment.user.username }}</div>
+        <div>{{ comment.comment }}</div>
+    </div>
+    {% endfor %}
+{% else %}
+<div>
+    <h4>등록된 댓글이 없습니다.</h4>
+</div>
+{% endif %}
+{% else %}
+<div>
+    <h3>댓글을 보실려면 그룹 가입을 하셔야합니다.</h3>
+    <a href={% url 'group_join' group.group_id %} type="button" class="btn btn-success">가입하기</a>
+</div>
+{% endif %}
 {% endblock %}

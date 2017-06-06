@@ -2,8 +2,13 @@
 {% load staticfiles %}
 {% block content %}
     <div class="title">
-        <h2>{{ name }}</h2>
+        <h2>{{ group.group_name }}</h2>
     </div>
+    {% if auth is None %}
+    <div align="right">
+        <a href={% url 'group_join' group.group_id %} type="button" class="btn btn-success">가입하기</a>
+    </div>
+    {% endif %}
     {% if posting is not None %}
     <table class="table">
         <thead>
@@ -15,7 +20,7 @@
         </thead>
         <tbody>
             <tr>
-                <td>{{ posting.title }}</td>
+                <td><a type="text" href={% url "group_post" posting.posting_id %}>{{ posting.title }}</a></td>
                 <td>{{ posting.user.username }}</td>
                 <td>{{ posting.count }}</td>
             </tr>
@@ -28,6 +33,6 @@
     {%  endif %}
     <br><br><br>
     {% if auth is not None %}
-        <a href="/group/write/{{ groupID }}"type="button" class="btn btn-default">글쓰기</a>
+        <a href="/group/write/{{ group.group_id }}"type="button" class="btn btn-default">글쓰기</a>
     {% endif %}
 {% endblock %}

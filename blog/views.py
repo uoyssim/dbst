@@ -36,7 +36,9 @@ def group_create(request):
 
 def group_create_db(request):
     if request.method == "POST":
-        Group.objects.create(group_name=request.POST.get('group_name', None), group_info=request.POST.get('group_info',None), like=0);
+        group = Group.objects.create(group_name=request.POST.get('group_name', None), group_info=request.POST.get('group_info',None), like=0)
+        user = AuthUser.objects.get(username = request.user.username)
+        Group_auth.objects.create(user = user, group = group, auth = 'A')
     return redirect('/group/')
 
 def group_in(request, groupID):
@@ -45,27 +47,60 @@ def group_in(request, groupID):
     except:
         auth = None
 
-    group_name = Group.objects.get(group_id = groupID).group_name
+    group = Group.objects.get(group_id = groupID)
     try:
         posting = Posting.objects.get(group_id = groupID)
     except:
         posting = None
     if posting is None:
-        return render(request, 'blog/group_in.html', {'auth':auth, 'groupID':groupID, 'name':group_name})
+        return render(request, 'blog/group_in.html', {'auth':auth, 'group':group})
     else:
-        return render(request, 'blog/group_in.html', {'auth':auth, 'groupID':groupID, 'name':group_name, 'posting':posting})
+        return render(request, 'blog/group_in.html', {'auth':auth, 'group':group, 'posting':posting})
 
-def group_post(request):
-    return render(request, 'blog/group_post.html', {})
+def group_post(request, postingID):
+    post = Posting.objects.get(posting_id = postingID)
+    post.count = post.count + 1
+    post.save()
+    group = Group.objects.get(group_id = post.group.group_id)
+    try:
+        posting = Posting.objects.get(posting_id=postingID)
+        comments = Posting_comment.objects.filter(posting = posting)
+    except:
+        comments = None
+    try:
+        auth = Group_auth.objects.filter(group_id = group.group_id).get(user_id = request.user.id)
+    except:
+        auth = None
+    return render(request, 'blog/group_post.html', {'post':post, 'group': group, 'comments':comments, 'auth': auth})
+
+def group_comment(request):
+    if request.method == "POST":
+        groupID = request.POST.get('groupID', None)
+        Posting_comment.objects.create(
+            posting = Posting.objects.get(posting_id=request.POST.get('postID',None)),
+            user = AuthUser.objects.get(username = request.user.username),
+            comment = request.POST.get('comment', None))
+        post = Posting.objects.get(posting_id= request.POST.get('postID', None))
+        group = Group.objects.get(group_id=groupID)
+        try:
+            comments = Posting_comment.objects.filter(posting = Posting.objects.get(posting_id = request.POST.get('postID', None)))
+        except:
+            comments = None
+        try:
+            auth = Group_auth.objects.filter(group_id=group.group_id).get(user_id=request.user.id)
+        except:
+            auth = None
+        return render(request, 'blog/group_post.html', {'post': post, 'group': group, 'comments': comments, 'auth': auth})
+    else:
+        return redirect('group')
 
 def group_write(request, groupID):
     return render(request, 'blog/group_write.html', {'groupID':groupID})
 
 def group_write_db(request):
-
     if request.method == "POST":
         groupID = request.POST.get("groupID", None)
-        group_name = Group.objects.get(group_id = groupID).group_name
+        group = Group.objects.get(group_id = groupID)
         Posting.objects.create(user = AuthUser.objects.get(username = request.user.username), group = Group.objects.get(group_id=groupID), title=request.POST.get("title",None), contents=request.POST.get("contents",None), count = 0, like = 0)
         try:
             posting = Posting.objects.get(group_id=groupID)
@@ -75,9 +110,26 @@ def group_write_db(request):
             auth = Group_auth.objects.filter(group_id=groupID).get(user_id=request.user.id)
         except:
             auth = None
-        return render(request, 'blog/group_in.html', {'auth':auth, 'groupID':groupID, 'name':group_name, 'posting':posting})
+        return render(request, 'blog/group_in.html', {'auth':auth, 'group':group, 'posting':posting})
     else:
         return redirect('group')
+
+def group_join(request, groupID):
+    user = AuthUser.objects.get(username = request.user.username)
+    group = Group.objects.get(group_id = groupID)
+    Group_auth.objects.create(user = user, group=group, auth='N')
+    try:
+        auth = Group_auth.objects.filter(group_id=groupID).get(user_id=request.user.id)
+    except:
+        auth = None
+    try:
+        posting = Posting.objects.get(group_id = groupID)
+    except:
+        posting = None
+    if posting is None:
+        return render(request, 'blog/group_in.html', {'auth':auth, 'group':group})
+    else:
+        return render(request, 'blog/group_in.html', {'auth':auth, 'group':group, 'posting':posting})
 
 def index(request):
     return render(request, 'blog/index.html', {})

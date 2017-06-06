@@ -220,15 +220,15 @@ class Posting(models.Model):
 
 
 class Posting_comment(models.Model):
-    posting_id = models.IntegerField(primary_key=True)
+    posting = models.ForeignKey(Posting, models.DO_NOTHING)
     timestamp = models.DateTimeField()
-    user = models.ForeignKey(AuthGroup, models.DO_NOTHING)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
     comment = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'blog_posting_comment'
-        unique_together = (('posting_id', 'timestamp', 'user'),)
+        unique_together = (('posting', 'timestamp', 'user'),)
 
 
 class Qa(models.Model):
