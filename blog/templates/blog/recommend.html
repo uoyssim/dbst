@@ -17,13 +17,13 @@
 
         <!-- Wrapper for slides -->
         <div class="carousel-inner">
-            {% for recommend in recommends %}
+            {% for movie in newest %}
                 {% if forloop.counter0 == 0 %}
                 <div class="item active">
                 {% else %}
                 <div class="item">
                 {% endif %}
-            <a href="/movie_info/{{recommend.movie_id}}"><img src={% static "images/"|add:recommend.poster_url %} alt={{ recommend.title_kor }} style="width:100%;"></a>
+            <a href="/movie_info/{{movie.movie_id}}"><img src={% static "images/"|add:movie.poster_url %} alt={{ movie.title_kor }} style="width:100%;"></a>
             </div>
             {% endfor %}
             </div>
