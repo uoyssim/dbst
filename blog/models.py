@@ -231,11 +231,11 @@ class Posting_comment(models.Model):
         unique_together = (('posting', 'timestamp', 'user'),)
 
 
-class Qa(models.Model):
+class QA(models.Model):
     qa_id = models.AutoField(db_column='QA_id', primary_key=True)  # Field name made lowercase.
     timestamp = models.DateTimeField()
     category = models.CharField(max_length=50)
-    user_id = models.CharField(max_length=150)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
     qa_title = models.CharField(db_column='QA_title', max_length=50, blank=True, null=True)  # Field name made lowercase.
     qa_contents = models.TextField(db_column='QA_contents')  # Field name made lowercase.
     state = models.CharField(max_length=1)

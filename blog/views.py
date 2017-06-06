@@ -131,6 +131,9 @@ def group_join(request, groupID):
     else:
         return render(request, 'blog/group_in.html', {'auth':auth, 'group':group, 'posting':posting})
 
+def recommend(request):
+    return render(request, 'blog/recommend.html', {})
+
 def index(request):
     return render(request, 'blog/index.html', {})
 
@@ -169,6 +172,20 @@ def search(request):
 			return render(request, 'blog/search.html', {'actors': actorTemp, 'movies': movieTemp, 'directors':directorTemp})
 		else :
 			return render(request, 'blog/search.html',{})
+
+def qna_list(request):
+    return render(request, 'blog/qna_list.html', {})
+
+def board_write(request):
+    return render(request, 'blog/board_write.html', {})
+
+def QA_create_db(request):
+    if request.method == "POST":
+        QA.objects.create(category=request.POST.get('category', None), user = AuthUser.objects.get(username = request.user.username),
+                          qa_title=request.POST.get('title', None), qa_contents=request.POST.get('context', None),
+                          state='A');
+    return redirect('/qna_list/')
+
 
 def on_off(request, devId):
     print (devId)

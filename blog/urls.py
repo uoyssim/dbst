@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^group/write/(?P<groupID>[0-9]+)/$', views.group_write, name="group_write"),
     url(r'^group/write/db/$', views.group_write_db, name="group_write_db"),
     url(r'^group/comment/$', views.group_comment, name="group_comment"),
+    url(r'^recommend/$', views.recommend, name="recommend"),
     url(r'^actor_info/(?P<actorID>[0-9]+)/$', views.actor_info),
     url(r'^login/', login, name="login"),
     url(r'^logout/', logout, {'next_page': 'index', }, name="logout"),
@@ -31,4 +32,7 @@ urlpatterns = [
 	url(r'^movie_info/(?P<movieID>[0-9]+)/$', views.movie_info),
 	url(r'^search/',views.search),
 	url(r'^director_info/(?P<directorID>[0-9.]+)/$', views.director_info),
+    url(r'^qna_list/$', views.qna_list, name="qna_list"),
+    url(r'^board_write/$',views.board_write, name="board_write"),
+    url(r'^board_write/db/$', views.QA_create_db, name="QA_create_db"),
 ]
