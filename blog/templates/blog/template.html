@@ -13,6 +13,8 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 
 
 <!--[if IE 6]><link href="default_ie6.css" rel="stylesheet" type="text/css" /><![endif]-->
@@ -41,10 +43,9 @@
 		</div>
 		<div id="menu">
 			<ul>
-				<li class="current_page_item"><a href="#" accesskey="1" title="">Movie Mate</a></li>
+				<li ><a href="{% url 'moviemate' %}" accesskey="1" title="">Movie Mate</a></li>
 				<li><a href="{% url 'recommend' %}" accesskey="2" title="">RECOMMEND</a></li>
 				<li><a href="/search" accesskey="3" title="">SEARCH</a></li>
-
 				<li><a href="{% url 'group' %}" accesskey="4" title="">GROUP</a></li>
 				<li><a href="{% url 'qna_list' %}" accesskey="5" title="">Q&A</a></li>
 			</ul>

@@ -35,4 +35,5 @@ urlpatterns = [
     url(r'^qna_list/$', views.qna_list, name="qna_list"),
     url(r'^board_write/$',views.board_write, name="board_write"),
     url(r'^board_write/db/$', views.QA_create_db, name="QA_create_db"),
+    url(r'^moviemate/$', views.moviemate, name="moviemate"),
 ]

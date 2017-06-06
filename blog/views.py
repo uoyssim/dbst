@@ -302,3 +302,7 @@ def login(request):
     else:
         form = LoginForm()
         return render(request, 'registration/login.html', {'form': form})
+
+
+def moviemate(request):
+    return render(request, 'blog/moviemate.html', {})
