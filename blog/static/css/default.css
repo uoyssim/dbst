@@ -55,7 +55,7 @@
 	
 	.container
 	{
-		overflow: hidden;
+		overflow: auto;
 		margin: 0em auto;
 		width: 1200px;
 	}
@@ -109,7 +109,7 @@
 		margin: 0 auto;
 		padding: 0;
 		width: 80%;
-		overflow: hidden;
+		overflow: auto;
 		list-style: none;
 		text-align: left;
 		color: #6c6c6c
@@ -493,7 +493,7 @@
 
 	#main
 	{
-		overflow: hidden;
+		overflow: auto;
 		float: right;
 		width: 800px;
 		min-height: 1000px;

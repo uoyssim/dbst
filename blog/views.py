@@ -302,3 +302,13 @@ def login(request):
     else:
         form = LoginForm()
         return render(request, 'registration/login.html', {'form': form})
+
+
+def moviemate(request):
+    trailer = Trailer.objects.all()
+    trailer = trailer[:20]
+    actor = Actor.objects.all()
+    actor = actor[:20]
+    director = Director.objects.all()
+    director = director[:20]
+    return render(request, 'blog/moviemate.html', {'trailer': trailer, 'actor': actor, 'director': director})
