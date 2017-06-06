@@ -1,0 +1,47 @@
+{% extends 'blog/template.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <h1>회원 정보 수정</h1>
+    <body >
+        {% ifequal info None %}
+           <form action={% url 'userinfo' %} method="post">
+                {% csrf_token %}
+                    <div class="form-group" align="left">
+                        <label for="birth">Title: </label>
+                        <input type="date" class="form-control" id="user_birth" placeholder="생일" name="user_birth"/>
+                    </div>
+                    <div class="form-group" align="left">
+                        <label for="phone">Content: </label>
+                        <input type="text" class="form-control" id="phone" placeholder="phone num (ex.010-xxxx-xxxx)" name="phone"/>
+                    </div>
+                    <div class="form-group" align="left">
+                        <label for="email">Content: </label>
+                        <input type="text" class="form-control" id="email" placeholder="e-mail" name="email"/>
+                    </div>
+                    <input type="submit" class="btn btn-default" value="Post"/>
+                </form>
+        {% else %}
+                <form action={% url 'userinfo' %} method="post">
+                {% csrf_token %}
+                    <div class="form-group" align="left">
+                        <label for="birth">Title: </label>
+                        <input type="date" class="form-control" id="user_birth" placeholder="생일" name="user_birth" value="{{info.birthday}}"/>
+                    </div>
+                    <div class="form-group" align="left">
+                        <label for="phone">Content: </label>
+                        <input type="text" class="form-control" id="phone" placeholder="phone num (ex.010-xxxx-xxxx)" name="phone"value="{{info.phone }}"/>
+                    </div>
+                    <div class="form-group" align="left">
+                        <label for="email">Content: </label>
+                        <input type="text" class="form-control" id="email" placeholder="e-mail" name="email"value="{{info.email }}"/>
+                    </div>
+                   <input type="submit"class="btn btn-default" value="Post"/>
+                </form>
+        {% endifequal %}
+
+
+
+    </body>
+{% endblock %}
+</html>

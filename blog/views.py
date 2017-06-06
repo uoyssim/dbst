@@ -329,3 +329,25 @@ def moviemate(request):
     director = Director.objects.all()
     director = director[:20]
     return render(request, 'blog/moviemate.html', {'trailer': trailer, 'actor': actor, 'director': director})
+
+def userinfo(request):
+    if request.user.is_authenticated():
+        username = AuthUser.objects.get(username=request.user.username)
+        try:
+            info = UserInfo.objects.get(id=request.user.username)
+        except:
+            info = None
+        if request.method == "POST":
+            if info is None:
+                UserInfo.objects.create(id=request.user.username, birthday=request.POST.get("user_birth",None), email=request.POST.get("email",None), phone=request.POST.get("phone",None))
+            else:
+                info.birthday = request.POST.get("user_birth",None)
+                info.email = request.POST.get("email",None)
+                info.phone = request.POST.get("phone",None)
+                info.save()
+            return render(request, "blog/index.html")
+        else:
+            if info is not None:
+                return render(request, 'blog/user_info.html', {'info':info})
+            else:
+                return render(request, 'blog/user_info.html', {'info':info})

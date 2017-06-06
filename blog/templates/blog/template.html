@@ -36,7 +36,8 @@
                 {% endif %}
             {% if user.is_authenticated %}
                 <ul class="actions">
-                  <li><a href="{% url 'logout' %}" class="button">Logout</a></li>
+                <li><a href="{% url 'logout' %}" class="button">Logout</a></li>
+                  <li><a href="{% url 'userinfo' %}" class="button">Edit Info</a></li>
                 </ul>
              {% endif %}
            </section>

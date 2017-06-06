@@ -93,7 +93,7 @@ class Actor(models.Model):
 class Comment(models.Model):
     comment_id = models.AutoField(primary_key=True)
     movie_id = models.IntegerField()
-    user = models.ForeignKey('User', models.DO_NOTHING)
+    user = models.ForeignKey('AuthUser', models.DO_NOTHING)
     comment = models.TextField()
     timestamp = models.DateTimeField()
     like = models.IntegerField()
@@ -335,8 +335,8 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
-class User(models.Model):
-    user_id = models.CharField(primary_key=True, max_length=50)
+class UserInfo(models.Model):
+    id = models.CharField(primary_key=True, max_length=50)
     password = models.CharField(max_length=15)
     reg_date = models.DateTimeField()
     birthday = models.DateField()
@@ -345,4 +345,4 @@ class User(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'user'
+        db_table = 'user_info'
