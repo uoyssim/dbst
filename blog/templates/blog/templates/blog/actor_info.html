@@ -1,0 +1,90 @@
+﻿{% extends 'blog/template.html' %}
+{% load staticfiles %}
+
+    {% block content %}
+	<div class="bs-docs-section">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="page-header" align="left">
+					<h1> {{actor.name}} </h1>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-4">
+				<img src={{actor.picture_url}} width = 213 height = 317>
+			</div>
+			<div class="col-lg-8">
+				<table class="table table-striped">
+					<thead></thead>
+					<tbody>
+						<tr> 
+							<td> 
+								<B> 평점 : </B> {{actor.score}}
+								{% if user.is_authenticated %}
+									<a href="#" class="btn btn-primary"> 평점주기 </a>
+								{% endif %} 
+							</td>
+						</tr>
+						<tr> <td> <B> 생일 : </B> {{actor.birthday}}</td> </tr>
+						<tr> <td> <B> 국적 : </B> {{actor.nation}}</td> </tr>
+					</tbody>
+				</table>
+			</div>	
+		</div>
+	</div>
+	<div class="bs-docs-section">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="page-header" align="left">
+					<h1> 필모그래피 </h1>
+				</div>
+			</div>
+		</div>
+			{% for role, movie in roles_and_movies %}
+				<div class="row">
+					<div class="col-lg-4">
+						<a href="/movie_info/{{movie.movie_id}}"><img src={{movie.poster_url}} width = 149 height = 222> </a>
+					</div>
+					<div class="col-lg-8">
+						<table class="table table-striped">
+							<thead></thead>
+							<tbody>
+								<tr> <td> <B> 한제 : </B> {{movie.title_kor}} </td> </tr>
+								<tr> <td> <B> 영제 : </B> {{movie.title_en}} </td> </tr>
+								<tr> <td> <B> 배역 : </B> {{role.role}} 役 </td> </tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+	
+	<!--디버그 코드-->
+	<!--div class="container" align="left">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<td><B>ID</B></td>
+					<td><B>이름</B></td>
+					<td><B>생일</B></td>
+					<td><B>국가</B></td>
+					<td><B>조회수</B></td>
+					<td><B>평점</B></td>
+				</tr>
+			</thead>
+			<tbody>
+				<img src={{actor.picture_url}} width = 240 height = 480>
+				<tr>
+					<td>{{actor.actor_id}}</td>
+					<td>{{actor.name}}</td>
+					<td>{{actor.birthday}}</td>
+					<td>{{actor.nation}}</td>
+					<td>{{actor.count}}</td>
+					<td>{{actor.score}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div-->
+    {% endblock %}
