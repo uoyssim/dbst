@@ -12,7 +12,7 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-4">
-				<img src={{movie.poster_url}} width = 213 height = 317>
+				<img src="{% static "images/"|add:movie.poster_url %}" width = 213 height = 317>
 			</div>
 			<div class="col-lg-8">
 				<table class="table table-striped">

@@ -189,7 +189,6 @@ class Movie(models.Model):
     year = models.CharField(max_length=4)
     nation = models.CharField(max_length=50)
     poster_url = models.CharField(max_length=200)
-
     class Meta:
         managed = False
         db_table = 'blog_movie'

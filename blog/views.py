@@ -2,6 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.core import serializers
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
+from django.db.models import Max, Avg, Count
 import pytz
 from .forms import UpdateDev
 from .models import *
@@ -132,7 +133,19 @@ def group_join(request, groupID):
         return render(request, 'blog/group_in.html', {'auth':auth, 'group':group, 'posting':posting})
 
 def recommend(request):
-    return render(request, 'blog/recommend.html', {})
+    if request.user.is_authenticated():
+        user = AuthUser.objects.get(username = request.user.username)
+        try:
+            user_inter = UserInterest.objects.filter(user = user)
+        except:
+            user_inter = None
+        newest = Movie.objects.exclude(movie_id__in=user_inter.values_list('movie', flat=True)).order_by('-playdate')[:5]
+        hot = UserInterest.objects.values('movie').annotate(count = Count('movie')).order_by('-count')
+        hotest = Movie.objects.filter(movie_id__in=hot.values_list('movie', flat=True))[:5]
+        return render(request, 'blog/recommend.html', {'user':user, 'newest':newest, 'hotest': hotest})
+    else:
+        recommends = Movie.objects.all().order_by('playdate')[:5]
+        return render(request, 'blog/recommend.html', {'recommens':recommends})
 
 def index(request):
     return render(request, 'blog/index.html', {})
