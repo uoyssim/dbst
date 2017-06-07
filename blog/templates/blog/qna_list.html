@@ -1,8 +1,51 @@
 {% extends 'blog/template.html' %}
 {% load staticfiles %}
 {% block content %}
-<div>
-    <h1>Q&A</h1>
-    <a href="{% url 'board_write' %}" type="button" class="btn btn-success">글쓰기</a>
-</div>
+
+    <div>
+        <h1>Q&A</h1><br>
+    </div>
+    {% if user.is_authenticated %}
+        {% if qa_list is not None %}
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>제목</th>
+                    <th>카테고리</th>
+                    <th>날짜</th>
+                    {% if auth %}
+                    <th>상태</th>
+                    {% endif %}
+                </tr>
+                </thead>
+                {% for qa in qa_list %}
+                    <tr>
+                        <td><a type="text" href={% url 'qa_post' qa.qa_id %}>{{ qa.qa_title }}</a></td>
+                        <td>{{ qa.category }}</td>
+                        <td>{{ qa.timestamp }}</td>
+                    {% if auth %}
+                        <td>
+                        {% if qa.state == 'A' %}
+                            미처리
+                        {% elif qa.state == 'B' %}
+                            처리중
+                        {% elif qa.state == 'X' %}
+                            기각
+                        {% elif qa.state == 'Z' %}
+                            완료
+                        {% endif %}
+                        </td>
+                    {% endif %}
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <h4>등록된 Q&A가 없습니다.</h4>
+        {% endif %}
+        <a href="{% url 'board_write' %}" type="button" class="btn btn-success">글쓰기</a>
+    {% else %}
+        <h3>로그인이 필요합니다.</h3><br><br><br>
+        <a href="{% url 'login' %}" class="btn btn-default">LOGIN</a>
+    {% endif %}
+
 {% endblock %}

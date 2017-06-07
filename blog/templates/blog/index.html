@@ -5,21 +5,20 @@
 <!--<div id="banner">
 	<img src="{% static 'images/pic01.jpg' %}" alt="" class="image-full" />
 </div>-->
-<iframe width="560" height="315" src="https://www.youtube.com/embed/L9cH1cSpI1Q" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="{{ mummy_trailer.url }}" frameborder="0" allowfullscreen></iframe>
 <div id="welcome">
 	<div class="title">
-		<h2>Fusce ultrices fringilla metus</h2>
-		<span class="byline">Donec leo, vivamus fermentum nibh in augue praesent a lacus at urna congue</span>
+		<h2><미이라> 언론 시사 반응</h2>
+		<span class="byline">그동안의 <strong>미이라</strong>들은 잊어라!</span>
 	</div>
-	<p>This is <strong>Privy</strong>, a free, fully standards-compliant CSS template designed by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>. The photos in this template are from <a href="http://fotogrph.com/"> Fotogrph</a>. This free template is released under the <a href="http://templated.co/license">Creative Commons Attribution</a> license, so you're pretty much free to do whatever you want with it (even use it commercially) provided you give us credit for it. Have fun :) </p>
-	<ul class="actions">
-		<li><a href="#" class="button">Etiam posuere</a></li>
-	</ul>
+	<p>새로운 <strong>미이라</strong>는 1932년 <a href="http://templated.co" rel="nofollow">[미이라]</a>, 그리고 전세계 누적 수입 12억 달러를 기록한 블록버스터
+        <a href="http://fotogrph.com/">[미이라]</a> 시리즈(1999~2001). 이 두 편의 작품은 잊어도 좋을 만큼 2017 미이라는 새롭게 탈바꿈했습니다. 고전의 미스터리한 분위기와 시리지의 스펙터클을 합쳐 재탄생한 작품이라고 말할 수 있죠</p>
+	<img src="{% static 'images/'|add:mummy.poster_url %}" alt={{ mummy.title_kor }} style="width:400px;">
 </div>
 <div id="featured">
 	<div class="title">
-		<h2>Maecenas lectus sapien</h2>
-		<span class="byline">Integer sit amet aliquet pretium</span>
+		<h2>개봉 예정 영화</h2>
+		<span class="byline">올해의 기대작</span>
 	</div>
 	<ul class="style1">
 		<li class="first">
@@ -43,9 +42,5 @@
 			<p><a href="#">Etiam non felis. Donec ut ante. In id eros. Suspendisse lacus turpis, cursus egestas at sem. Mauris quam enim, molestie. Donec leo, vivamus fermentum nibh in augue praesent congue rutrum.</a></p>
 		</li>
 	</ul>
-</div>
-<div id="copyright">
-	<span>&copy; Untitled. All rights reserved. | Photos by <a href="http://fotogrph.com/">Fotogrph</a></span>
-	<span>Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</span>
 </div>
 {% endblock %}

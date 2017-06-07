@@ -1,0 +1,49 @@
+{% extends 'blog/template.html' %}
+{% load staticfiles %}
+{% block content %}
+    <div class="title">
+        <h2> Q&A </h2>
+    </div>
+    {% if auth %}
+        <form method="post" action={% url "QA_reply" %}>
+            {% csrf_token %}
+            <div align="left">
+                <div class="form-group">
+                    <label for="title">제목</label>
+                    <div id="title">{{ post.qa_title }}</div>
+                </div>
+                <div class="form-group">
+                    <label for="content">내용</label>
+                    <div id="content">
+                        {{ post.qa_contents }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <textarea rows="5" type="text" id="contents" name="contents" style="width:80%;"value= {{ post.qa_contents }}>
+                    </textarea>
+                </div>
+                <div class="form-group">
+                    <label for="state">처리 상태</label>
+                    <select id="state" name="state" class="form-control">
+                        <option value="B">처리중</option>
+                        <option value="Z">완료</option>
+                        <option value="X">기각</option>
+                    </select>
+                </div>
+            </div>
+            <div align="right">
+                <input type="hidden" name="qa_id" value="{{ post.qa_id }}"/>
+                <input type="submit" class="btn btn-default" value="작성"/>
+            </div>
+        </form>
+    {% else %}
+        <div class="form-group">
+            <label for="title">제목</label>
+            <div id="title">{{ post.qa_title }}</div>
+        </div>
+        <div>
+            <label for="contents-default">내용</label>
+            <div id="contents-default">{{ post.qa_contents }}</div>
+        </div>
+    {% endif %}
+{% endblock %}

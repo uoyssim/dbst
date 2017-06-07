@@ -77,17 +77,16 @@ class AuthUserUserPermissions(models.Model):
 
 
 class Actor(models.Model):
-    actor_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
-    birthday = models.DateField()
-    nation = models.CharField(max_length=50)
-    count = models.IntegerField()
-    score = models.IntegerField()
-    picture_url = models.CharField(max_length=200)
+	actor_id = models.AutoField(primary_key=True)
+	name = models.CharField(max_length=100)
+	birthday = models.DateField()
+	nation = models.CharField(max_length=50)
+	count = models.IntegerField()
+	picture_url = models.CharField(max_length=200)
 
-    class Meta:
-        managed = False
-        db_table = 'blog_actor'
+	class Meta:
+		managed = False
+		db_table = 'blog_actor'
 
 
 class Comment(models.Model):
@@ -259,15 +258,27 @@ class Role(models.Model):
 
 
 class Score(models.Model):
-    user_id = models.CharField(primary_key=True, max_length=50)
+    score_id = models.AutoField(db_column='score_id', primary_key=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
     movie = models.ForeignKey(Movie, models.DO_NOTHING)
     score = models.IntegerField()
 
     class Meta:
         managed = False
         db_table = 'blog_score'
-        unique_together = (('user_id', 'movie'),)
+        unique_together = (('user', 'movie'),)
 
+	
+class ActorScore(models.Model):
+	actorscore_id = models.AutoField(db_column='actorscore_id', primary_key=True)
+	user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+	actor = models.ForeignKey(Actor, models.DO_NOTHING)
+	score = models.IntegerField()
+	
+	class Meta:
+		managed = False
+		db_table = 'blog_actor_score'
+		unique_together = (('user', 'actor'),)
 
 class Trailer(models.Model):
     trailer_id = models.AutoField(primary_key=True)
@@ -281,6 +292,7 @@ class Trailer(models.Model):
 
 
 class UserInterest(models.Model):
+    user_interest_id = models.AutoField(primary_key=True)
     movie = models.ForeignKey(Movie, models.DO_NOTHING)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
     timestamp = models.DateTimeField(blank=True, null=True)

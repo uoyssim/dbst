@@ -19,11 +19,13 @@
             </tr>
         </thead>
         <tbody>
+        {% for post in posting %}
             <tr>
-                <td><a type="text" href={% url "group_post" posting.posting_id %}>{{ posting.title }}</a></td>
-                <td>{{ posting.user.username }}</td>
-                <td>{{ posting.count }}</td>
+                <td><a type="text" href={% url 'group_post' post.posting_id %}>{{ post.title }}</a></td>
+                <td>{{ post.user.username }}</td>
+                <td>{{ post.count }}</td>
             </tr>
+        {%  endfor %}
         </tbody>
     </table>
     {%  else %}
@@ -33,6 +35,6 @@
     {%  endif %}
     <br><br><br>
     {% if auth is not None %}
-        <a href="/group/write/{{ group.group_id }}"type="button" class="btn btn-default">글쓰기</a>
+        <a href="/group/write/{{ group.group_id }}" type="button" class="btn btn-default">글쓰기</a>
     {% endif %}
 {% endblock %}

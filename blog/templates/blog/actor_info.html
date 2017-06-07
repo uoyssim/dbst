@@ -18,7 +18,31 @@
 				<table class="table table-striped">
 					<thead></thead>
 					<tbody>
-						<tr> <td> <B> 평점 : </B> {{actor.score}}</td> </tr>
+						<tr> 
+							<td> 
+								<B> 평점 : </B> {{avg}}
+								{% if user.is_authenticated %}
+ 									<!--a href="#" class="btn btn-primary"> 평점주기 </a-->
+									<form action="/actor_info/{{actor.actor_id}}" method="post">
+										<label>Score</label>
+										{% csrf_token %}
+										<select name="score">
+											<option> 0 </option>
+											<option> 1 </option>
+											<option> 2 </option>
+											<option> 3 </option>
+											<option> 4 </option>
+											<option> 5 </option>
+										</select>
+										{% if voteRight %}
+											<br> <input type="submit" value="평점주기"> </input> </br>
+										{% else %}
+											<br> 이미 평점을 주셨습디다 </br>
+										{% endif %}
+										</form>
+								{% endif %}
+							</td> 
+						</tr>
 						<tr> <td> <B> 생일 : </B> {{actor.birthday}}</td> </tr>
 						<tr> <td> <B> 국적 : </B> {{actor.nation}}</td> </tr>
 					</tbody>
@@ -53,31 +77,4 @@
 			{% endfor %}
 		</div>
 	</div>
-	
-	<!--디버그 코드-->
-	<!--div class="container" align="left">
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<td><B>ID</B></td>
-					<td><B>이름</B></td>
-					<td><B>생일</B></td>
-					<td><B>국가</B></td>
-					<td><B>조회수</B></td>
-					<td><B>평점</B></td>
-				</tr>
-			</thead>
-			<tbody>
-				<img src={{actor.picture_url}} width = 240 height = 480>
-				<tr>
-					<td>{{actor.actor_id}}</td>
-					<td>{{actor.name}}</td>
-					<td>{{actor.birthday}}</td>
-					<td>{{actor.nation}}</td>
-					<td>{{actor.count}}</td>
-					<td>{{actor.score}}</td>
-				</tr>
-			</tbody>
-		</table>
-	</div-->
     {% endblock %}
