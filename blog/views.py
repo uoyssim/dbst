@@ -24,12 +24,16 @@ def group(request):
             my_group_id = my_groups.group_id
             my_group_list = Group.objects.filter(group_id = my_group_id)
             group_list = Group.objects.exclude(group_id__in = my_group_list)
+            print(my_group_list.query)
+            print(group_list.query)
             return render(request, 'blog/group.html', {'group_list': group_list, 'my_group_list': my_group_list})
         else:
             group_list = Group.objects.all()
+            print(group_list.query)
             return render(request, 'blog/group.html', {'group_list': group_list})
     else:
         group_list = Group.objects.all()
+        print(group_list.query)
         return render(request, 'blog/group.html', {'group_list': group_list})
 
 def group_create(request):
@@ -39,18 +43,22 @@ def group_create_db(request):
     if request.method == "POST":
         group = Group.objects.create(group_name=request.POST.get('group_name', None), group_info=request.POST.get('group_info',None), like=0)
         user = AuthUser.objects.get(username = request.user.username)
-        Group_auth.objects.create(user = user, group = group, auth = 'A')
+        q = Group_auth.objects.create(user = user, group = group, auth = 'A')
+        print(q.query)
     return redirect('/group/')
 
 def group_in(request, groupID):
     try:
         auth = Group_auth.objects.filter(group_id = groupID).get(user_id = request.user.id)
+        print(auth.query)
     except:
         auth = None
 
     group = Group.objects.get(group_id = groupID)
+    print(group.query)
     try:
         posting = Posting.objects.get(group_id = groupID)
+        print(posting.query)
     except:
         posting = None
     if posting is None:
@@ -61,15 +69,19 @@ def group_in(request, groupID):
 def group_post(request, postingID):
     post = Posting.objects.get(posting_id = postingID)
     post.count = post.count + 1
-    post.save()
+    q = post.save()
+    print(q.query)
     group = Group.objects.get(group_id = post.group.group_id)
     try:
         posting = Posting.objects.get(posting_id=postingID)
+        print(posting.query)
         comments = Posting_comment.objects.filter(posting = posting)
+        print(comments.query)
     except:
         comments = None
     try:
         auth = Group_auth.objects.filter(group_id = group.group_id).get(user_id = request.user.id)
+        print(auth.query)
     except:
         auth = None
     return render(request, 'blog/group_post.html', {'post':post, 'group': group, 'comments':comments, 'auth': auth})
@@ -77,18 +89,23 @@ def group_post(request, postingID):
 def group_comment(request):
     if request.method == "POST":
         groupID = request.POST.get('groupID', None)
-        Posting_comment.objects.create(
+        q = Posting_comment.objects.create(
             posting = Posting.objects.get(posting_id=request.POST.get('postID',None)),
             user = AuthUser.objects.get(username = request.user.username),
             comment = request.POST.get('comment', None))
+        print(q.query)
         post = Posting.objects.get(posting_id= request.POST.get('postID', None))
+        print(post.query)
         group = Group.objects.get(group_id=groupID)
+        print(group.query)
         try:
             comments = Posting_comment.objects.filter(posting = Posting.objects.get(posting_id = request.POST.get('postID', None)))
+            print(comments.query)
         except:
             comments = None
         try:
             auth = Group_auth.objects.filter(group_id=group.group_id).get(user_id=request.user.id)
+            print(auth)
         except:
             auth = None
         return render(request, 'blog/group_post.html', {'post': post, 'group': group, 'comments': comments, 'auth': auth})
@@ -102,13 +119,17 @@ def group_write_db(request):
     if request.method == "POST":
         groupID = request.POST.get("groupID", None)
         group = Group.objects.get(group_id = groupID)
-        Posting.objects.create(user = AuthUser.objects.get(username = request.user.username), group = Group.objects.get(group_id=groupID), title=request.POST.get("title",None), contents=request.POST.get("contents",None), count = 0, like = 0)
+        print(group.query)
+        q = Posting.objects.create(user = AuthUser.objects.get(username = request.user.username), group = Group.objects.get(group_id=groupID), title=request.POST.get("title",None), contents=request.POST.get("contents",None), count = 0, like = 0)
+        print(q.query)
         try:
             posting = Posting.objects.get(group_id=groupID)
+            print(posting.query)
         except:
             posting = None
         try:
             auth = Group_auth.objects.filter(group_id=groupID).get(user_id=request.user.id)
+            print(auth.query)
         except:
             auth = None
         return render(request, 'blog/group_in.html', {'auth':auth, 'group':group, 'posting':posting})
@@ -117,10 +138,14 @@ def group_write_db(request):
 
 def group_join(request, groupID):
     user = AuthUser.objects.get(username = request.user.username)
+    print(user.query)
     group = Group.objects.get(group_id = groupID)
-    Group_auth.objects.create(user = user, group=group, auth='N')
+    print(group.query)
+    q = Group_auth.objects.create(user = user, group=group, auth='N')
+    print(q.query)
     try:
         auth = Group_auth.objects.filter(group_id=groupID).get(user_id=request.user.id)
+        print(auth.query)
     except:
         auth = None
     try:
@@ -135,20 +160,35 @@ def group_join(request, groupID):
 def recommend(request):
     if request.user.is_authenticated():
         user = AuthUser.objects.get(username = request.user.username)
+        print(user)
         try:
             user_inter = UserInterest.objects.filter(user = user)
+            print(user_inter)
         except:
             user_inter = None
+        # 최신 영화
         newest = Movie.objects.exclude(movie_id__in=user_inter.values_list('movie', flat=True)).order_by('-playdate')[:5]
-        hot = UserInterest.objects.values('movie').annotate(count = Count('movie')).order_by('-count')
-        hotest = Movie.objects.filter(movie_id__in=hot.values_list('movie', flat=True))[:5]
-        return render(request, 'blog/recommend.html', {'user':user, 'newest':newest, 'hotest': hotest})
+        print(newest.query)
+        # 유저가 가장 많이 클릭한 영화
+        one_week_ago = datetime.today() - timedelta(days=7)
+        hot = UserInterest.objects.filter(timestamp__gte=one_week_ago).values('movie').annotate(count = Count('movie')).order_by('-count')
+        hotest = Movie.objects.filter(movie_id__in=hot.values_list('movie', flat=True))
+        print(hotest.query)
+        # 오늘 날짜에 개봉한 영화
+        today = datetime.today()
+        print(today.month)
+        print(today.day)
+
+        return render(request, 'blog/recommend.html', {'user':user, 'newest':newest, 'hotest': hotest[0]})
     else:
         recommends = Movie.objects.all().order_by('playdate')[:5]
+        print(recommends.query)
         return render(request, 'blog/recommend.html', {'recommens':recommends})
 
 def index(request):
-    return render(request, 'blog/index.html', {})
+    mummy = Movie.objects.get(title_kor="미이라")
+    mummy_trailer = Trailer.objects.get(movie = mummy)
+    return render(request, 'blog/index.html', {'mummy':mummy, 'mummy_trailer':mummy_trailer})
 
 def dev_info(request):
     devs = Dev.objects.all()
@@ -164,25 +204,35 @@ def log_setting(request):
 
 def actor_info(request, actorID):
     temp = Actor.objects.get(pk = actorID)
+    print(temp.query)
     roleTemp = Role.objects.filter(actor = actorID)
+    print(roleTemp.query)
     movieTemp = Movie.objects.filter(movie_id__in=roleTemp.values_list('movie',flat=True))
+    print(movieTemp.query)
     if request.user.is_authenticated():
         user = AuthUser.objects.get(username=request.user.username)
-        count = temp.count + 1
-        temp.count = count
-        temp.save()
+        temp.count = temp.count + 1
+        q = temp.save()
+        print(q.query)
     return render(request, 'blog/actor_info.html', {'actor' : temp, 'roles_and_movies':zip(roleTemp,movieTemp)})
 
 def movie_info(request, movieID):
     temp = Movie.objects.get(pk = movieID)
+
     genreTemp = Genre.objects.filter(movie_id = movieID)
+    print(genreTemp.query)
     directTemp = Direct.objects.filter(movie_id = movieID)
+    print(directTemp.query)
     directorTemp = Director.objects.filter(director_id__in=directTemp.values_list('director',flat=True))
+    print(directorTemp.query)
     roleTemp = Role.objects.filter(movie = movieID)
+    print(roleTemp.query)
     actorTemp = Actor.objects.filter(actor_id__in=roleTemp.values_list('actor',flat=True))
+    print(actorTemp.query)
     if request.user.is_authenticated():
         try:
             user = AuthUser.objects.get(username=request.user.username)
+            print(user.query)
             interest = UserInterest.objects.get(user_id=user)
         except:
             interest = None
@@ -192,13 +242,16 @@ def movie_info(request, movieID):
 	
 def director_info(request, directorID):
     temp = Director.objects.get(pk = directorID)
+    print(temp.query)
     directTemp = Direct.objects.filter(director = directorID)
+    print(directTemp.query)
     movieTemp = Movie.objects.filter(movie_id__in=directTemp.values_list('movie_id',flat=True))
+    print(movieTemp.query)
     if request.user.is_authenticated():
         user = AuthUser.objects.get(username=request.user.username)
-        count = temp.count + 1
-        temp.count = count
-        temp.save()
+        temp.count = temp.count + 1
+        q = temp.save()
+        print(q.query)
     return render(request, 'blog/director_info.html', {'director': temp, 'movies': movieTemp})
 	
 def search(request):
@@ -221,11 +274,11 @@ def board_write(request):
 
 def QA_create_db(request):
     if request.method == "POST":
-        QA.objects.create(category=request.POST.get('category', None), user = AuthUser.objects.get(username = request.user.username),
+        q = QA.objects.create(category=request.POST.get('category', None), user = AuthUser.objects.get(username = request.user.username),
                           qa_title=request.POST.get('title', None), qa_contents=request.POST.get('context', None),
                           state='A');
+        print(q.query)
     return redirect('/qna_list/')
-
 
 def on_off(request, devId):
     print (devId)
@@ -272,7 +325,6 @@ def getDevInfo(request):
 
 def update(request):
     if request.method == "POST":
-        print(request.POST)
         temp = Dev.objects.get(pk = request.POST.get('id',None))
         temp.info = request.POST.get('info',None)
         temp.addr = request.POST.get('addr',None)
@@ -352,12 +404,14 @@ def userinfo(request):
             info = None
         if request.method == "POST":
             if info is None:
-                UserInfo.objects.create(id=request.user.username, birthday=request.POST.get("user_birth",None), email=request.POST.get("email",None), phone=request.POST.get("phone",None))
+                q = UserInfo.objects.create(id=request.user.username, birthday=request.POST.get("user_birth",None), email=request.POST.get("email",None), phone=request.POST.get("phone",None))
+                print(q.query)
             else:
                 info.birthday = request.POST.get("user_birth",None)
                 info.email = request.POST.get("email",None)
                 info.phone = request.POST.get("phone",None)
-                info.save()
+                q1 = info.save()
+                print(q1.query)
             return render(request, "blog/index.html")
         else:
             if info is not None:
